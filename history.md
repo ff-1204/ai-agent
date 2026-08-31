@@ -217,4 +217,104 @@ platform.openai.com/docs/…  →  developers.openai.com/api/docs/…  (301)
 
 ---
 
+## 이 문서를 이어서 쓰는 법
+
+**두 부분으로 나뉩니다.**
+
+| 부분 | 누가 | 어떻게 |
+| :--- | :--- | :--- |
+| **판단 이력** (위쪽 본문) | **손으로** | 자동 생성이 불가능한 부분. 이 문서의 값어치 |
+| **커밋 이력** (아래 부록) | **스크립트** | `pwsh scripts/update-history.ps1` |
+
+```powershell
+pwsh scripts/update-history.ps1           # 갱신
+pwsh scripts/update-history.ps1 -Check    # 갱신이 필요한지만 확인
+```
+
+**언제 본문에 항목을 더하나** — 아래 중 하나라도 해당하면 남깁니다.
+
+- 구조를 바꿨다 (폴더 구성, 파일 규칙)
+- 규칙을 정했거나 바꿨다 (`CLAUDE.md` 변경)
+- 의존성 버전 정책을 건드렸다
+- **무언가를 하지 않기로 정했다** ← 가장 중요. "하지 않기로 한 것들" 표에 추가
+- 앞선 판단이 틀렸음을 알게 됐다 ← 성공만 남기면 같은 실수를 반복합니다
+
+**훅으로 알림을 받을 수 있습니다.**
+
+```powershell
+git config core.hooksPath scripts/hooks
+```
+
+커밋 후 갱신 명령을 띄우고, 판단이 담겼을 법한 커밋이면 본문에도 남기라고 알려 줍니다. **파일을 고치지는 않습니다** — 커밋 직후 작업 트리를 더럽히지 않기 위해서입니다.
+
+---
+
+## 부록 · 커밋 이력
+
+<!-- AUTO:COMMITS:START -->
+<!-- 이 절은 scripts/update-history.ps1 이 만듭니다. 직접 고치지 마세요. -->
+
+전체 커밋 37개. 판단의 배경은 위쪽 본문에 있습니다.
+
+### 2026-04-06  ·  1개  ·  Nayeon Park
+
+| 커밋 | 제목 |
+| :--- | :--- |
+| `beca5a5` | Initial commit |
+
+### 2026-04-14  ·  19개  ·  Nayeon Park
+
+| 커밋 | 제목 |
+| :--- | :--- |
+| `a51b732` | feat: add PART2 & CHAP6_single-agent |
+| `54477b8` | docs: update README.md |
+| `dc3758e` | feat: add .gitignore |
+| `16a4303` | feat: add .env.example |
+| `d8a282f` | chore: delete CHAP6_single-agent/coding_agent/fibonacci.py |
+| `a677f80` | chore: delete CHAP6_single-agent/fibonacci.py |
+| `f79c97e` | feat: add .env.example |
+| `6f1edce` | feat: CHAP7_multi-agent network & outputs |
+| `b0fecbf` | feat: add .env.example |
+| `9280f47` | feat: supervisor_agent_web supervisor_agent_triple |
+| `a7a56e7` | feat: supervisor_planning_agent |
+| `499386d` | feat: CHAP8_memory & CHAP9_MCP |
+| `5b4f2a5` | feat: add .env.example |
+| `9844425` | feat: add .env.example |
+| `1a45dfc` | feat: add .env.example |
+| `8d4d6f0` | feat: CHAP10_A2A |
+| `d4a235b` | feat: add .env.example |
+| `1a93891` | feat: CHAP11_final-project |
+| `2251a23` | feat: add .env.example |
+
+### 2026-05-01  ·  1개  ·  Nayeon Park
+
+| 커밋 | 제목 |
+| :--- | :--- |
+| `105d778` | fix: update README.md |
+
+### 2026-08-31  ·  16개  ·  ff-1204
+
+| 커밋 | 제목 |
+| :--- | :--- |
+| `a605286` | docs: 학습을 위한 폴더 및 파일 구조 변경 |
+| `11d848d` | chore(deps): 의존성을 최신 안정 버전으로 정렬하고 상한 고정 |
+| `5f402ef` | docs: 장별 참고 문서와 절 노트 포인터 추가, CLAUDE.md 작성 |
+| `fe7d239` | docs(ch01): 1장 절 노트를 서술형 학습 자료로 작성 |
+| `f63ad69` | docs(ch02-03): 2·3장 절 노트를 서술형 학습 자료로 작성 |
+| `733b57a` | docs(ch04-05): 4·5장 절 노트를 서술형 학습 자료로 작성 |
+| `6095a89` | docs(ch06): 6장 절 노트를 서술형 학습 자료로 작성 |
+| `ef9a9b9` | docs(ch07): 7장 절 노트를 서술형 학습 자료로 작성 |
+| `6de8425` | docs(ch08): 8장 절 노트를 서술형 학습 자료로 작성 |
+| `c83c37e` | docs(ch09): 9장 절 노트를 서술형 학습 자료로 작성 |
+| `f01e5d0` | docs(ch10): 10장 절 노트를 서술형 학습 자료로 작성 |
+| `5589164` | docs(ch11): 11장 절 노트를 서술형 학습 자료로 작성 (전 장 완료) |
+| `250cdf8` | docs: 용어를 공식 문서 기준으로 통일하고 1장 필기 정리 |
+| `deab18f` | docs(ch01): 필기에서 정리한 내용을 절 노트에 반영 |
+| `92f23d8` | docs(ch01): IT 특성화고 눈높이로 다시 쓰고 4개 절의 이해 흐름 연결 |
+| `7e27140` | docs: 독자층을 CLAUDE.md에 명시하고 변경 이력 문서 추가 |
+
+<!-- AUTO:COMMITS:END -->
+
+---
+
 [⬅ CLAUDE.md](CLAUDE.md) · [전체 목차](STUDY.md)

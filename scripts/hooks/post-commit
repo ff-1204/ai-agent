@@ -1,0 +1,35 @@
+#!/bin/sh
+# 커밋 후 history.md 상태를 알려 주는 훅.
+#
+# 파일을 고치지 않습니다. 커밋 직후 작업 트리를 더럽히지 않기 위해서입니다.
+# 활성화: git config core.hooksPath scripts/hooks
+
+subject=$(git log -1 --format=%s)
+
+# 이 커밋에서 history.md 가 함께 바뀌었나
+if git diff-tree --no-commit-id --name-only -r HEAD | grep -q '^history\.md$'; then
+    exit 0
+fi
+
+# 판단이 담겼을 법한 커밋인지 (규칙·구조·의존성·정책)
+case "$subject" in
+    chore\(deps\)*|build*|refactor*|feat*)
+        needs_entry=1 ;;
+    docs*)
+        # 문서 커밋 중 규칙/구조를 바꾼 것만
+        if git diff-tree --no-commit-id --name-only -r HEAD \
+            | grep -qE '^(CLAUDE\.md|STUDY\.md|README\.md|pyproject\.toml)$'; then
+            needs_entry=1
+        fi ;;
+esac
+
+printf '\n'
+printf '  [history] 커밋 이력 갱신:  pwsh scripts/update-history.ps1\n'
+
+if [ -n "$needs_entry" ]; then
+    printf '  [history] 이 커밋에 "왜 그렇게 정했는가"가 있다면 history.md 본문에도 남기세요.\n'
+    printf '            특히 "하지 않기로 한 것"이라면 그 표에 추가하세요.\n'
+fi
+
+printf '\n'
+exit 0
