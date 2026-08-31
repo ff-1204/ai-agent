@@ -79,6 +79,19 @@ ai-agent/
 - **절·소절 구성은 교재 목차를 따릅니다.** 임의로 쪼개거나 합치지 않습니다
 - 환경 구축(4.1 VS Code, 4.2 가상환경, 4.3 환경변수)은 나중에 `SETUP.md`로 뺄 예정입니다. 아직 만들지 않았습니다
 
+### 용어
+
+- **공식 문서 용어를 우선합니다.** 교재 용어가 다르면 **괄호나 대응표로 병기**하고, 본문 서술은 공식 용어로 밀고 나갑니다
+- 이유는 검색 가능성입니다. 막혔을 때 찾아볼 곳이 공식 문서이므로, 노트에 적힌 말과 문서에 적힌 말이 같아야 합니다
+- 다만 **교재 용어를 지우지는 마세요.** 책을 보면서 노트를 읽을 때 대응이 안 되면 곤란합니다
+- 확정된 대응 (2026-08-31)
+
+  | 공식 문서 | 교재 | 비고 |
+  | :--- | :--- | :--- |
+  | 워크플로(Workflow) | 라우터 기반 에이전트 | 교재의 "라우팅"도 공식 패턴 이름 |
+  | 에이전트(Agent) | 자율 에이전트 구조 | |
+  | Routing / Orchestrator-worker / Evaluator-optimizer … | — | 워크플로 패턴 5종. [1.4절](ch01_llm-decision/01-04_LLM%20%EA%B8%B0%EB%B0%98%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C%2C%20%EC%9D%B4%EB%9F%B0%20%EA%B5%AC%EC%A1%B0%EB%A1%9C%20%EC%84%A4%EA%B3%84%EB%90%9C%EB%8B%A4.md)에 대응표 |
+
 ### 본문
 
 - 개념은 `##`/`###` 소제목 + 불릿으로 전개, 핵심 용어는 **볼드**에 영문 병기 — 예: **도구 호출(Tool Calling)**
@@ -165,6 +178,14 @@ uv sync --upgrade
 - `pyproject.toml`의 `mcp>=1.26.0,<2` 와 `a2a-sdk>=0.3.25,<1` 상한을 **풀지 마세요.** 풀면 교재 예제 26개 파일이 한꺼번에 깨집니다
 - `langchain`·`langgraph`·`langchain-openai`에도 `<2` 를 걸어 뒀습니다
 - 전체 문서 색인: <https://docs.langchain.com/llms.txt> · LangGraph만: <https://docs.langchain.com/oss/python/langgraph/llms.txt>
+
+### OpenAI 문서 도메인이 이전됐습니다 (2026-08-31 확인)
+
+`platform.openai.com/docs/...` → **`developers.openai.com/api/docs/...`** 로 301 리다이렉트됩니다. 노트의 링크는 새 주소로 갱신해 뒀습니다. 새로 링크를 넣을 때도 새 주소를 쓰세요.
+
+**콘솔은 그대로입니다** — API 키 발급 페이지(`platform.openai.com/api-keys`)는 이전되지 않았습니다.
+
+> **모델 이름을 노트에 적지 마세요.** 확인 시점에 모델 문서의 최신 계열이 교재의 `gpt-4o`와 이미 달랐습니다. 이름과 가격은 [모델 문서](https://developers.openai.com/api/docs/models)로 넘기는 것이 맞습니다.
 
 ## 7. 작업할 때 유의할 점
 

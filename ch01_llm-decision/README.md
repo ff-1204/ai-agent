@@ -38,8 +38,8 @@
 | --- | --- |
 | 1.4 워크플로형 vs 자율 에이전트 구조 | [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents) |
 | 같은 주제를 설계 관점에서 | Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) |
-| 1.2~1.3 LLM이 행동을 결정하는 방식 | [OpenAI · Function calling](https://platform.openai.com/docs/guides/function-calling) |
-| 1.1 LLM 기본기 | [OpenAI · Text generation](https://platform.openai.com/docs/guides/text-generation) |
+| 1.2~1.3 LLM이 행동을 결정하는 방식 | [OpenAI · Function calling](https://developers.openai.com/api/docs/guides/function-calling) |
+| 1.1 LLM 기본기 | [OpenAI · Text generation](https://developers.openai.com/api/docs/guides/text-generation) |
 
 > 개념 장이라 라이브러리 문서보다 위 두 개의 설계 글이 더 도움이 됩니다.
 
