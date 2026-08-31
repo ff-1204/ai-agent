@@ -14,8 +14,8 @@
 | 02 | AI 에이전트를 구성하는 3가지 핵심 요소 | [`ch02_core-elements`](ch02_core-elements/README.md) | ✅ 4개 | — | ☐ |
 | 03 | 목적에 따른 에이전트 아키텍처 설계 기준 | [`ch03_architecture`](ch03_architecture/README.md) | ✅ 3개 | — | ☐ |
 | | **Part 02 | 랭그래프로 구현하는 AI 에이전트** | | | | |
-| 04 | 에이전트 개발 환경 구축 | [`ch04_dev-env`](ch04_dev-env/README.md) | 4개 | ✓ | ☐ |
-| 05 | 랭그래프 기반 에이전트 설계 | [`ch05_langgraph-basics`](ch05_langgraph-basics/README.md) | 3개 | ✓ | ☐ |
+| 04 | 에이전트 개발 환경 구축 | [`ch04_dev-env`](ch04_dev-env/README.md) | ✅ 4개 | ✓ | ☐ |
+| 05 | 랭그래프 기반 에이전트 설계 | [`ch05_langgraph-basics`](ch05_langgraph-basics/README.md) | ✅ 3개 | ✓ | ☐ |
 | 06 | 싱글 에이전트 구현 | [`ch06_single-agent`](ch06_single-agent/README.md) | 5개 | ✓ | ☐ |
 | | **Part 03 | 멀티 에이전트 설계와 메모리 시스템 구현** | | | | |
 | 07 | 멀티 에이전트 구현 | [`ch07_multi-agent`](ch07_multi-agent/README.md) | 6개 | ✓ | ☐ |
