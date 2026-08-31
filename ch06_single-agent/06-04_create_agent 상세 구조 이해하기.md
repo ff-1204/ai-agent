@@ -3,6 +3,10 @@
 > **저자 예제** — [`examples/create_agent/`](examples/create_agent) (`tools.py` · `middleware.py` · `middleware_with_node.py`)
 > **공식 문서** — [Agents](https://docs.langchain.com/oss/python/langchain/agents) · [Middleware overview](https://docs.langchain.com/oss/python/langchain/middleware/overview) · [Built-in](https://docs.langchain.com/oss/python/langchain/middleware/built-in) · [Custom](https://docs.langchain.com/oss/python/langchain/middleware/custom) · [Structured output](https://docs.langchain.com/oss/python/langchain/structured-output)
 
+> **여기까지** — 도구를 직접 만들고 `create_agent` 한 줄로 에이전트를 만들었습니다([6.3절](06-03_%EC%BD%94%EB%94%A9%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0.md)).
+> **이 절의 질문** — **그 한 줄 안에서 무슨 일이 일어나지?** 그리고 중간에 끼어들려면?
+> **다 읽으면** — `create_agent`가 블랙박스가 아니게 됩니다. **미들웨어**로 원하는 자리에 손을 넣을 수 있습니다.
+
 > **버전 주의** — 이 절은 LangChain **v1**의 `create_agent` 기준입니다. 구버전 자료의 `create_react_agent`(`langgraph.prebuilt`)나 `AgentExecutor`는 다른 API입니다. 자세한 것은 [CLAUDE.md](../CLAUDE.md) §6.
 
 ## 6.4.1 create_agent 개요 이해하기
@@ -254,6 +258,16 @@ grader = llm.with_structured_output(Grade)
 * 미들웨어는 **목록에 적은 순서대로** 적용됩니다.
 * 구조화 출력은 **Pydantic으로 검증**합니다. LLM이 채우는 값은 믿을 수 없기 때문입니다.
 * 에이전트 전체의 최종 답변은 **`response_format`**, 중간 판단은 **`with_structured_output`** 입니다.
+
+---
+
+## 다음 절로
+
+웹 검색으로 **인터넷에 있는 것**은 가져올 수 있게 됐습니다.
+
+**그런데 회사 내부 규정이나 우리 제품 매뉴얼은 웹에 없습니다.** 검색해도 안 나옵니다.
+
+모델이 모르는 **내 문서**를 다루려면? → **[6.5절](06-05_RAG%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0.md)**
 
 ---
 
