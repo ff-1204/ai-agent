@@ -20,6 +20,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+# Git Bash 등에서 실행해도 한글이 깨지지 않도록
+try { [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new() } catch { }
+
 $repo = Split-Path $PSScriptRoot -Parent
 $historyPath = Join-Path $repo 'history.md'
 
@@ -64,7 +67,9 @@ foreach ($g in $byDate) {
 }
 
 [void]$sb.Append('<!-- AUTO:COMMITS:END -->')
-$generated = $sb.ToString().TrimEnd()
+
+# AppendLine 은 윈도우에서 CRLF 를 씁니다. 이 저장소는 LF 이므로 맞춰 줍니다.
+$generated = ($sb.ToString() -replace "`r`n", "`n").TrimEnd()
 
 # --- 마커 사이 교체 -----------------------------------------------------
 $content = [System.IO.File]::ReadAllText($historyPath)
@@ -75,6 +80,9 @@ if ($content -notmatch $pattern) {
 }
 
 $updated = [regex]::Replace($content, $pattern, { $generated })
+
+# 파일 전체를 LF 로 통일 (앞선 실행이 CRLF 를 남겼을 수 있음)
+$updated = $updated -replace "`r`n", "`n"
 
 if ($updated -eq $content) {
     Write-Host "history.md 커밋 이력: 변경 없음 (커밋 $($commits.Count)개)"
