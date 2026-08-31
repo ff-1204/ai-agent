@@ -4,3 +4,16 @@
 __pycache__
 chroma_db
 _to_delete/
+
+# --- 학습 환경 (2026-08-31 추가) ---
+# 구글 드라이브 OAuth 산출물 — 11장. 절대 커밋하지 마세요.
+credentials.json
+token.json
+token.pickle
+
+# uv 관리형 가상환경 / 캐시
+.venv/
+.uv/
+
+# 노트북 체크포인트
+.ipynb_checkpoints/
