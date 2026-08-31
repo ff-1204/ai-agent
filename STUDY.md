@@ -10,7 +10,7 @@
 | 장 | 제목 | 폴더 | 절 노트 | 예제 코드 | 진도 |
 | --- | --- | --- | --- | --- | --- |
 | | **Part 01 | AI 에이전트의 개념과 원리** | | | | |
-| 01 | LLM 기반 의사결정 구조와 에이전트 동작 방식 | [`ch01_llm-decision`](ch01_llm-decision/README.md) | 4개 | — | ☐ |
+| 01 | LLM 기반 의사결정 구조와 에이전트 동작 방식 | [`ch01_llm-decision`](ch01_llm-decision/README.md) | ✅ 4개 | — | ☐ |
 | 02 | AI 에이전트를 구성하는 3가지 핵심 요소 | [`ch02_core-elements`](ch02_core-elements/README.md) | 4개 | — | ☐ |
 | 03 | 목적에 따른 에이전트 아키텍처 설계 기준 | [`ch03_architecture`](ch03_architecture/README.md) | 3개 | — | ☐ |
 | | **Part 02 | 랭그래프로 구현하는 AI 에이전트** | | | | |
@@ -25,6 +25,10 @@
 | 10 | A2A 기반 에이전트 상호운용 | [`ch10_a2a`](ch10_a2a/README.md) | 4개 | ✓ | ☐ |
 | | **Part 05 | 멀티 에이전트 실전 프로젝트** | | | | |
 | 11 | 웹 검색 · RAG · 파일 관리 범용 멀티 에이전트 | [`ch11_final-project`](ch11_final-project/README.md) | 6개 | ✓ | ☐ |
+
+> **절 노트** 칸의 `✅`는 서술형 노트가 **작성 완료**된 장입니다. 표시가 없으면 아직 빈 템플릿입니다.
+> **진도** 칸은 직접 읽고 공부한 표시입니다. 노트 작성과 별개로 본인이 채웁니다.
+> 노트 작성 규칙과 진행 상태는 [CLAUDE.md](CLAUDE.md)에 있습니다.
 
 ## 장 폴더 구성
 
