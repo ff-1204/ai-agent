@@ -400,7 +400,7 @@ git config core.hooksPath scripts/hooks
 <!-- AUTO:COMMITS:START -->
 <!-- 이 절은 scripts/update-history.ps1 이 만듭니다. 직접 고치지 마세요. -->
 
-전체 커밋 54개. 판단의 배경은 위쪽 본문에 있습니다.
+전체 커밋 56개. 판단의 배경은 위쪽 본문에 있습니다.
 
 ### 2026-04-06  ·  1개  ·  Nayeon Park
 
@@ -438,7 +438,7 @@ git config core.hooksPath scripts/hooks
 | :--- | :--- |
 | `105d778` | fix: update README.md |
 
-### 2026-08-31  ·  33개  ·  ff-1204
+### 2026-08-31  ·  34개  ·  ff-1204
 
 | 커밋 | 제목 |
 | :--- | :--- |
@@ -475,6 +475,13 @@ git config core.hooksPath scripts/hooks
 | `940e2f8` | docs(ch07-08): 7·8장에 실측 실행 결과 반영 |
 | `af2800f` | docs(ch09-10): 9·10장에 실제 서버를 띄운 실측 결과 반영 |
 | `51b77f3` | docs(ch11): 11장 실측 가능한 부분 반영 + 실측 현황 정리 |
+| `1fed125` | docs: 커밋 이력 부록 갱신 |
+
+### 2026-09-01  ·  1개  ·  ff-1204
+
+| 커밋 | 제목 |
+| :--- | :--- |
+| `a59d7d6` | docs(ch01): 1.1 토큰 설명을 실측으로 다시 씀 (서술 1건 정정) |
 
 <!-- AUTO:COMMITS:END -->
 
