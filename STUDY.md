@@ -16,7 +16,7 @@
 | | **Part 02 | 랭그래프로 구현하는 AI 에이전트** | | | | |
 | 04 | 에이전트 개발 환경 구축 | [`ch04_dev-env`](ch04_dev-env/README.md) | ✅ 4개 | ✓ | ☐ |
 | 05 | 랭그래프 기반 에이전트 설계 | [`ch05_langgraph-basics`](ch05_langgraph-basics/README.md) | ✅ 3개 | ✓ | ☐ |
-| 06 | 싱글 에이전트 구현 | [`ch06_single-agent`](ch06_single-agent/README.md) | 5개 | ✓ | ☐ |
+| 06 | 싱글 에이전트 구현 | [`ch06_single-agent`](ch06_single-agent/README.md) | ✅ 5개 | ✓ | ☐ |
 | | **Part 03 | 멀티 에이전트 설계와 메모리 시스템 구현** | | | | |
 | 07 | 멀티 에이전트 구현 | [`ch07_multi-agent`](ch07_multi-agent/README.md) | 6개 | ✓ | ☐ |
 | 08 | 에이전트 메모리 설계와 개인화 구현 | [`ch08_memory`](ch08_memory/README.md) | 4개 | ✓ | ☐ |
