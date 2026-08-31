@@ -22,7 +22,7 @@
 | 08 | 에이전트 메모리 설계와 개인화 구현 | [`ch08_memory`](ch08_memory/README.md) | ✅ 4개 | ✓ | ☐ |
 | | **Part 04 | 프로토콜 기반 에이전트 확장 전략** | | | | |
 | 09 | MCP 기반 외부 도구 연동 | [`ch09_mcp`](ch09_mcp/README.md) | ✅ 5개 | ✓ | ☐ |
-| 10 | A2A 기반 에이전트 상호운용 | [`ch10_a2a`](ch10_a2a/README.md) | 4개 | ✓ | ☐ |
+| 10 | A2A 기반 에이전트 상호운용 | [`ch10_a2a`](ch10_a2a/README.md) | ✅ 4개 | ✓ | ☐ |
 | | **Part 05 | 멀티 에이전트 실전 프로젝트** | | | | |
 | 11 | 웹 검색 · RAG · 파일 관리 범용 멀티 에이전트 | [`ch11_final-project`](ch11_final-project/README.md) | 6개 | ✓ | ☐ |
 
