@@ -351,7 +351,7 @@ git config core.hooksPath scripts/hooks
 <!-- AUTO:COMMITS:START -->
 <!-- 이 절은 scripts/update-history.ps1 이 만듭니다. 직접 고치지 마세요. -->
 
-전체 커밋 45개. 판단의 배경은 위쪽 본문에 있습니다.
+전체 커밋 47개. 판단의 배경은 위쪽 본문에 있습니다.
 
 ### 2026-04-06  ·  1개  ·  Nayeon Park
 
@@ -389,7 +389,7 @@ git config core.hooksPath scripts/hooks
 | :--- | :--- |
 | `105d778` | fix: update README.md |
 
-### 2026-08-31  ·  24개  ·  ff-1204
+### 2026-08-31  ·  26개  ·  ff-1204
 
 | 커밋 | 제목 |
 | :--- | :--- |
@@ -417,6 +417,8 @@ git config core.hooksPath scripts/hooks
 | `f4be851` | docs(ch06-07): 6·7장에 이해 흐름 연결 |
 | `00b668b` | docs(ch08-09): 8·9장에 이해 흐름 연결 |
 | `1de2105` | docs(ch10-11): 10·11장 특성화고 눈높이 적용 + 7.6 삽입 오류 수정 |
+| `f41fe51` | docs: 이해 흐름 확대 이력(⑧) 기록 + 검사 절차 문서화 |
+| `5fbe4cb` | build: 실습 환경 구축 (uv + 파이썬 3.12) 및 예제 import 검증 |
 
 <!-- AUTO:COMMITS:END -->
 
