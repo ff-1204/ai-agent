@@ -32,6 +32,18 @@
 
 이 장은 개념 설명 중심이라 저장소에 대응하는 예제 코드가 없습니다.
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 2.1 ReAct — 원 논문 | [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) |
+| 2.1 Reflection — 원 논문 | [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366) |
+| 2.2 도구 호출 | [LangChain · Tools](https://docs.langchain.com/oss/python/langchain/tools) |
+| 2.3 메모리 개념 | [LangGraph · Memory](https://docs.langchain.com/oss/python/langgraph/add-memory) |
+| 2.4 ReAct 루프의 실제 구현 | [LangChain · Agents](https://docs.langchain.com/oss/python/langchain/agents) |
+
+> ReAct/Reflection은 논문이 짧고 그림이 명확합니다. 2차 자료보다 원문이 빠릅니다.
+
 ## 이 폴더 구성
 
 - `02-01_…md` ~ `02-04_…md` — 절별 학습 노트

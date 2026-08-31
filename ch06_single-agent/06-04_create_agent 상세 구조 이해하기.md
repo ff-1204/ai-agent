@@ -7,6 +7,9 @@
 | --- | --- | --- |
 |  |  | ☐ 미완 / ☐ 완료 |
 
+> **저자 예제** — `examples/create_agent/`
+> **공식 문서** — [Middleware overview](https://docs.langchain.com/oss/python/langchain/middleware/overview) · [Built-in](https://docs.langchain.com/oss/python/langchain/middleware/built-in) · [Custom](https://docs.langchain.com/oss/python/langchain/middleware/custom) · [Structured output](https://docs.langchain.com/oss/python/langchain/structured-output)
+
 ## 소절 체크
 
 - [ ] 6.4.1 create_agent 개요 이해하기

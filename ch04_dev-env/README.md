@@ -48,6 +48,16 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 4.2 가상환경 (uv 사용 시) | [uv 공식 문서](https://docs.astral.sh/uv/) |
+| 4.3 환경변수 | [python-dotenv](https://saurabh-kumar.com/python-dotenv/) |
+| 4.4 LLM 호출 첫걸음 | [OpenAI · Quickstart](https://platform.openai.com/docs/quickstart) · [API keys](https://platform.openai.com/api-keys) |
+| 모델 선택·초기화 (`init_chat_model`) | [LangChain · Models](https://docs.langchain.com/oss/python/langchain/models) |
+| 설치 확인 | [Install LangGraph](https://docs.langchain.com/oss/python/langgraph/install) |
+
 ## 이 폴더 구성
 
 - `04-01_…md` ~ `04-04_…md` — 절별 학습 노트

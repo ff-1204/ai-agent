@@ -59,6 +59,19 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 9.1 MCP란 (개념·스펙) | [Model Context Protocol](https://modelcontextprotocol.io/) |
+| 9.3 서버 구축 (`FastMCP`) | [MCP Python SDK 문서](https://py.sdk.modelcontextprotocol.io/) — **v1 섹션** |
+| SDK 예제 원본 | [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) |
+| 9.4~9.5 랭그래프에서 MCP 붙이기 | [langchain-mcp-adapters](https://github.com/langchain-ai/langchain-mcp-adapters) |
+
+> **버전 주의** — 이 저장소는 `mcp` **1.x**를 씁니다. 예제 import는 `from mcp.server.fastmcp import FastMCP`입니다.
+> 공식 SDK 문서 사이트는 현재 **v2 기준**이고, v2에서는 `from mcp.server import MCPServer`로 바뀌었습니다.
+> 문서를 열면 v1 섹션을 고르세요. v2 화면을 보고 따라 치면 import부터 어긋납니다.
+
 ## 이 폴더 구성
 
 - `09-01_…md` ~ `09-05_…md` — 절별 학습 노트

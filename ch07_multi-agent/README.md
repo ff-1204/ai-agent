@@ -79,6 +79,19 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 7.1 멀티 에이전트 유형 | [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents) |
+| 7.2 핸드오프 (`Command`) | [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api) 의 Command 절 |
+| 7.2 위임·서브에이전트 | [LangChain · Subagents](https://docs.langchain.com/oss/python/langchain/multi-agent/subagents) |
+| 에이전트를 그래프로 합치기 | [Subgraphs](https://docs.langchain.com/oss/python/langgraph/use-subgraphs) |
+| 슈퍼바이저 흐름 추적 | [LangSmith Observability](https://docs.langchain.com/oss/python/langgraph/observability) |
+
+> 예제가 `from langgraph.types import Command`를 저장소 전체에서 가장 많이 씁니다(14곳).
+> 핸드오프가 곧 `Command`라고 보면 7장 전체가 한 번에 풀립니다.
+
 ## 이 폴더 구성
 
 - `07-01_…md` ~ `07-06_…md` — 절별 학습 노트

@@ -65,6 +65,22 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 6.1 / 6.4 `create_agent` | [LangChain · Agents](https://docs.langchain.com/oss/python/langchain/agents) |
+| 6.2~6.3 도구 정의 | [LangChain · Tools](https://docs.langchain.com/oss/python/langchain/tools) |
+| 6.2 타빌리 검색 | [Tavily 문서](https://docs.tavily.com/) |
+| 6.2.5 스튜디오 띄우기 | [Run a local server](https://docs.langchain.com/oss/python/langgraph/local-server) · [LangSmith Studio](https://docs.langchain.com/oss/python/langgraph/studio) |
+| 6.4.3 미들웨어 | [Overview](https://docs.langchain.com/oss/python/langchain/middleware/overview) · [Built-in](https://docs.langchain.com/oss/python/langchain/middleware/built-in) · [Custom](https://docs.langchain.com/oss/python/langchain/middleware/custom) |
+| 6.4.4 구조화 출력 | [Structured output](https://docs.langchain.com/oss/python/langchain/structured-output) |
+| 6.5 RAG 에이전트 | [Build a custom RAG agent](https://docs.langchain.com/oss/python/langgraph/agentic-rag) |
+| 디버깅이 막힐 때 | [LangSmith Observability](https://docs.langchain.com/oss/python/langgraph/observability) |
+
+> **버전 주의** — 이 저장소는 LangChain **v1**입니다. 예제는 `from langchain.agents import create_agent`를 씁니다.
+> 검색으로 나오는 구버전 자료의 `create_react_agent`(`langgraph.prebuilt`)·`AgentExecutor`·LCEL 체인 코드는 그대로 돌아가지 않습니다.
+
 ## 이 폴더 구성
 
 - `06-01_…md` ~ `06-05_…md` — 절별 학습 노트

@@ -53,6 +53,18 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 8.1 메모리 전체 그림 | [LangGraph · Memory](https://docs.langchain.com/oss/python/langgraph/add-memory) |
+| 8.2~8.3 단기 메모리 (`InMemorySaver`) | [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence) · [Checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers) |
+| 8.4 장기 메모리 (`InMemoryStore`) | [Stores](https://docs.langchain.com/oss/python/langgraph/stores) |
+| 에이전트 관점에서의 메모리 | [Short-term](https://docs.langchain.com/oss/python/langchain/short-term-memory) · [Long-term](https://docs.langchain.com/oss/python/langchain/long-term-memory) |
+| 과거 상태로 되감기 | [Use time-travel](https://docs.langchain.com/oss/python/langgraph/use-time-travel) |
+
+> 용어가 헷갈리면 이 대응만 기억하세요 — **체크포인터 = 대화 하나 안의 단기 기억**, **스토어 = 대화를 넘어 남는 장기 기억**.
+
 ## 이 폴더 구성
 
 - `08-01_…md` ~ `08-04_…md` — 절별 학습 노트

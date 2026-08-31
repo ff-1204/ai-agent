@@ -72,6 +72,20 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 11.1 / 11.5 오케스트레이터 설계 | [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents) · [Subagents](https://docs.langchain.com/oss/python/langchain/multi-agent/subagents) |
+| 11.2 구글 드라이브 연동 | [Google Drive API](https://developers.google.com/workspace/drive/api/guides/about-sdk) · [OAuth 데스크톱 앱](https://developers.google.com/identity/protocols/oauth2/native-app) |
+| 11.3 문서 저장·검색 (Supabase) | [Supabase · AI & Vectors](https://supabase.com/docs/guides/ai) |
+| 11.4 웹 검색 | [Tavily 문서](https://docs.tavily.com/) |
+| 11.6 서버 여러 개 띄우기 | [Application structure](https://docs.langchain.com/oss/python/langgraph/application-structure) · [Run a local server](https://docs.langchain.com/oss/python/langgraph/local-server) |
+| 에이전트 간 통신 (A2A) | [A2A Specification](https://a2a-protocol.org/latest/specification/) |
+| 전체 흐름 추적 | [LangSmith Observability](https://docs.langchain.com/oss/python/langgraph/observability) |
+
+> 새 개념보다 6~10장의 조합입니다. 막히면 해당 장 노트로 돌아가는 게 빠릅니다.
+
 ## 이 폴더 구성
 
 - `11-01_…md` ~ `11-06_…md` — 절별 학습 노트

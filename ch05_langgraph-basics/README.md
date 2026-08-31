@@ -48,6 +48,19 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 5.1 왜 랭그래프인가 | [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) |
+| 5.2 State·Node·Edge 개념 | [Graph API overview](https://docs.langchain.com/oss/python/langgraph/graph-api) |
+| 5.2 손으로 따라가며 익히기 | [Use the graph API](https://docs.langchain.com/oss/python/langgraph/use-graph-api) |
+| 5.3 에이전트 설계 사고법 | [Thinking in LangGraph](https://docs.langchain.com/oss/python/langgraph/thinking-in-langgraph) |
+| 상태 저장 (8장 예고) | [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence) |
+| 그래프 API vs 함수형 API | [Choosing between Graph and Functional APIs](https://docs.langchain.com/oss/python/langgraph/choosing-apis) |
+
+> [Quickstart](https://docs.langchain.com/oss/python/langgraph/quickstart)를 먼저 한 번 훑고 오면 훨씬 수월합니다.
+
 ## 이 폴더 구성
 
 - `05-01_…md` ~ `05-03_…md` — 절별 학습 노트

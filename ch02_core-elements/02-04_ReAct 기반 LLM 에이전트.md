@@ -7,6 +7,8 @@
 | --- | --- | --- |
 |  |  | ☐ 미완 / ☐ 완료 |
 
+> **공식 문서** — [LangChain · Agents](https://docs.langchain.com/oss/python/langchain/agents)
+
 ## 정리
 
 

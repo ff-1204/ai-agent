@@ -7,6 +7,8 @@
 | --- | --- | --- |
 |  |  | ☐ 미완 / ☐ 완료 |
 
+> **공식 문서** — [ReAct 논문](https://arxiv.org/abs/2210.03629) · [Reflexion 논문](https://arxiv.org/abs/2303.11366)
+
 ## 소절 체크
 
 - [ ] 2.1.1 ReAct

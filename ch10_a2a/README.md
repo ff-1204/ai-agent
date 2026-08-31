@@ -61,6 +61,18 @@
 copy .env.example .env
 ```
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 10.1~10.2 A2A 개념·구성 요소 | [A2A Protocol](https://a2a-protocol.org/) |
+| 프로토콜 스펙 (AgentCard·Task·Message) | [A2A Specification](https://a2a-protocol.org/latest/specification/) |
+| 10.3 파이썬 SDK 사용법 | [Python 튜토리얼](https://a2a-protocol.org/latest/tutorials/python/2-setup/) |
+| `AgentExecutor` 등 클래스 레퍼런스 | [a2a-sdk API 문서](https://a2a-protocol.org/latest/sdk/python/api/) |
+
+> **버전 주의** — 이 저장소는 `a2a-sdk` **0.3.x**(프로토콜 스펙 0.3)를 씁니다.
+> 사이트의 `latest` 문서는 **스펙 1.0** 기준이라 일부 타입·시그니처가 다릅니다. 문서 상단의 버전 선택기를 확인하세요.
+
 ## 이 폴더 구성
 
 - `10-01_…md` ~ `10-04_…md` — 절별 학습 노트

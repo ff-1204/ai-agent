@@ -32,6 +32,17 @@
 
 이 장은 개념 설명 중심이라 저장소에 대응하는 예제 코드가 없습니다.
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 1.4 워크플로형 vs 자율 에이전트 구조 | [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents) |
+| 같은 주제를 설계 관점에서 | Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) |
+| 1.2~1.3 LLM이 행동을 결정하는 방식 | [OpenAI · Function calling](https://platform.openai.com/docs/guides/function-calling) |
+| 1.1 LLM 기본기 | [OpenAI · Text generation](https://platform.openai.com/docs/guides/text-generation) |
+
+> 개념 장이라 라이브러리 문서보다 위 두 개의 설계 글이 더 도움이 됩니다.
+
 ## 이 폴더 구성
 
 - `01-01_…md` ~ `01-04_…md` — 절별 학습 노트

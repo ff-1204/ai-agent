@@ -31,6 +31,17 @@
 
 이 장은 개념 설명 중심이라 저장소에 대응하는 예제 코드가 없습니다.
 
+## 참고 문서
+
+| 무엇을 볼 때 | 문서 |
+| --- | --- |
+| 3.1~3.2 싱글 vs 멀티 구조 비교 | [Workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents) |
+| 3.3 "언제 멀티로 가야 하나" | Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) |
+| 멀티 에이전트 위임 패턴 | [LangChain · Subagents](https://docs.langchain.com/oss/python/langchain/multi-agent/subagents) |
+| 설계 사고 훈련 | [Thinking in LangGraph](https://docs.langchain.com/oss/python/langgraph/thinking-in-langgraph) |
+
+> 3장의 판단 기준은 7장 실습에서 그대로 다시 쓰입니다. 넘어가지 말고 정리해두세요.
+
 ## 이 폴더 구성
 
 - `03-01_…md` ~ `03-03_…md` — 절별 학습 노트
