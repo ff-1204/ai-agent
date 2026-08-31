@@ -1,3 +1,8 @@
+# ⚠️ 이 파일은 저자가 제공한 원본 스냅숏(pip freeze)이며 현재 pyproject.toml 보다 오래되었습니다.
+#    의존성의 기준은 pyproject.toml + uv.lock 입니다. 아래 핀은 참고용으로만 보세요.
+#    최신 상태로 다시 만들려면 (저장소 루트에서):
+#        uv sync --upgrade
+#        uv export --no-hashes --format requirements-txt > requirements.txt
 a2a-sdk==0.3.11
 aiofiles==25.1.0
 aiohappyeyeballs==2.6.1
