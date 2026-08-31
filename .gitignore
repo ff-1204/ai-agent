@@ -3,3 +3,4 @@
 .langgraph_api
 __pycache__
 chroma_db
+_to_delete/

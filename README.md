@@ -1,3 +1,22 @@
+> **📁 이 저장소의 폴더 구조는 학습용으로 재배치되었습니다.**
+>
+> 아래 README에 적힌 `PART2/`, `CHAP6_single-agent/` … 폴더는 모두
+> 루트의 장별 폴더 `chXX_.../examples/` 아래로 옮겼습니다.
+> 장별 학습 노트와 진도표는 **[STUDY.md](STUDY.md)** 를 보세요.
+>
+> | 원래 위치 | 현재 위치 |
+> | --- | --- |
+> | `PART2/4.4_main.py` | `ch04_dev-env/examples/` |
+> | `PART2/5.2_*.ipynb`, `5.3_*.ipynb` | `ch05_langgraph-basics/examples/` |
+> | `CHAP6_single-agent/` | `ch06_single-agent/examples/` |
+> | `CHAP7_multi-agent/` | `ch07_multi-agent/examples/` |
+> | `CHAP8_memory/` | `ch08_memory/examples/` |
+> | `CHAP9_MCP/` | `ch09_mcp/examples/` |
+> | `CHAP10_A2A/` | `ch10_a2a/examples/` |
+> | `CHAP11_final-project/` | `ch11_final-project/examples/` |
+
+---
+
 # 만들면서 배우는 AI 에이전트 개발 입문+실전 - 실습 코드
 
 본 깃허브 레포지토리는『만들면서 배우는 AI 에이전트 개발 입문+실전』도서의 실습 코드를 담고 있습니다.
