@@ -41,6 +41,44 @@ graph TD
 
 **6.1절에서 그린 것과 같은 그림**입니다. 안에서 벌어지는 일이 다르지 않습니다.
 
+위 그림은 설명용으로 그린 것입니다. **랭그래프가 실제로 만든 것을 뽑아 보면** 이렇습니다.
+
+```python
+agent = create_agent(llm, [multiply, search_docs])
+print(agent.get_graph().draw_mermaid())
+```
+
+> **실측 (2026-08-31 · langchain 1.3.18 · langgraph 1.2.11)** — 모델 객체만 만들고 호출은 하지 않았습니다.
+
+```
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	model(model)
+	tools(tools)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> model;
+	model -.-> __end__;
+	model -.-> tools;
+	tools -.-> model;
+```
+
+```
+노드: ['__start__', 'model', 'tools', '__end__']
+```
+
+**노드가 딱 둘입니다 — `model`과 `tools`.** 도구를 두 개 줬는데도 `tools` 노드는 하나입니다. 도구 개수는 노드 수와 무관합니다.
+
+엣지를 읽어 보면([5.3절](../ch05_langgraph-basics/05-03_%EB%9E%AD%EA%B7%B8%EB%9E%98%ED%94%84%EB%A1%9C%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EC%84%A4%EA%B3%84%ED%95%98%EA%B3%A0%20%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0.md)의 읽는 법):
+
+| 엣지 | 뜻 |
+| :--- | :--- |
+| `__start__ --> model` | 실선 — 무조건 모델부터 |
+| `model -.-> __end__` | 점선 — 도구 호출이 없으면 끝 |
+| `model -.-> tools` | 점선 — 도구 호출이 있으면 실행 |
+| `tools -.-> model` | **되돌아옵니다** — 결과를 들고 다시 판단 |
+
+**마지막 줄이 순환입니다.** [2.4절](../ch02_core-elements/02-04_ReAct%20%EA%B8%B0%EB%B0%98%20LLM%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8.md)에서 손으로 짠 `while` 루프가 여기서는 **엣지 한 줄**입니다. `create_agent`가 감춰 준 것의 정체가 이 네 줄입니다.
+
 > **그래서 6.1절을 손으로 만들어 본 것입니다.** `create_agent`가 블랙박스가 아니라는 걸 알면, 이상하게 동작할 때 어디를 볼지 알 수 있습니다.
 
 ## 6.4.2 주요 파라미터 이해하기
