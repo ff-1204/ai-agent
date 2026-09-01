@@ -88,7 +88,7 @@ graph TD;
 | `model` | 쓸 LLM | [4.4절](../ch04_dev-env/04-04_LLM%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0.md) |
 | `tools` | 도구 목록 | [6.3절](06-03_%EC%BD%94%EB%94%A9%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0.md) |
 | `system_prompt` | 시스템 프롬프트 | [1.2절](../ch01_llm-decision/01-02_LLM%EC%9D%84%20%EA%B8%B0%EB%B0%98%EC%9C%BC%EB%A1%9C%20%EC%9D%98%EC%82%AC%EA%B2%B0%EC%A0%95%ED%95%98%EB%8B%A4.md) |
-| `checkpointer` | 대화를 이어 가게 함 | [5.1절](../ch05_langgraph-basics/05-01_%EC%99%9C%20%EB%9E%AD%EA%B7%B8%EB%9E%98%ED%94%84%EC%9D%B8%EA%B0%80.md) · 8장 |
+| `checkpointer` | 대화를 이어 가게 함 | [5.1절](../ch05_langgraph-basics/05-01_%EC%99%9C%20%EB%9E%AD%EA%B7%B8%EB%9E%98%ED%94%84%EC%9D%B8%EA%B0%80.md) |
 | `middleware` | 루프 중간에 끼어들기 | 6.4.3 |
 | `response_format` | 구조화 출력 | 6.4.4 |
 
@@ -120,7 +120,7 @@ response = agent_with_memory.invoke({"messages": [question]}, config=config)
 
 **`thread_id`가 같으면 같은 대화로 이어집니다.** 다르면 새 대화입니다. [2.3절](../ch02_core-elements/02-03_%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EC%9D%98%20%EA%B8%B0%EC%96%B5%EB%A0%A5%20-%20%EB%A9%94%EB%AA%A8%EB%A6%AC.md)에서 "체크포인터 = 대화 하나 안의 단기 기억"이라고 한 것이 이 형태입니다.
 
-> **`MemorySaver`는 프로세스 메모리에 저장합니다.** 프로그램이 꺼지면 사라집니다. 실제 서비스에서는 DB 기반 체크포인터를 씁니다. 8장에서 다룹니다.
+> **`MemorySaver`는 프로세스 메모리에 저장합니다.** 프로그램이 꺼지면 사라집니다. 실제 서비스에서는 DB 기반 체크포인터를 씁니다.
 >
 > 저자 예제가 질문 6개를 같은 `thread_id`로 던지는 이유는 **메시지를 10개 넘게 쌓아서** 아래 미들웨어를 발동시키기 위해서입니다.
 
@@ -289,7 +289,7 @@ grader = llm.with_structured_output(Grade)
 
 * `create_agent`는 **6.1절에서 손으로 만든 그래프를 한 줄로** 만들어 줍니다. 결과물은 평범한 랭그래프 그래프입니다.
 * **`checkpointer`와 `thread_id`는 짝**입니다. 전자는 어디에 저장할지, 후자는 어느 대화인지를 정합니다.
-* `MemorySaver`는 **프로세스가 꺼지면 사라집니다.** 실서비스는 DB 기반을 씁니다(8장).
+* `MemorySaver`는 **프로세스가 꺼지면 사라집니다.** 실서비스는 DB 기반을 씁니다.
 * 미들웨어는 두 갈래입니다 — **`@before_model`은 노드가 생기고**, **`@wrap_model_call`은 안 생깁니다.**
 * `@wrap_model_call`에서 **`handler`를 안 부르면 모델 호출 자체가 막힙니다.** 캐시·차단에 쓸 수 있습니다.
 * **도구 실패는 돌려주고, 금지어는 예외로 끊습니다.** 모델이 고칠 수 있는 문제인지가 기준입니다.
