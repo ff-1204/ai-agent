@@ -20,17 +20,14 @@ dependencies = [
     "langchain-community>=0.4.2",
     "langchain-tavily>=0.2.18",
     "langgraph-cli[inmem]>=0.4.31",
-
     # ── MCP (9장) ─────────────────────────────────────────────────────
     # 예제가 v1 API(`from mcp.server.fastmcp import FastMCP`)를 쓴다.
     # v2는 `from mcp.server import MCPServer`로 바뀌므로 <2 로 고정.
     "mcp>=1.26.0,<2",
     "langchain-mcp-adapters>=0.3.2",
-
     # ── A2A (10·11장) ─────────────────────────────────────────────────
     # 예제가 프로토콜 스펙 0.3 기준이다. SDK 1.x는 스펙 1.0이라 호환되지 않으므로 <1 로 고정.
     "a2a-sdk>=0.3.25,<1",
-
     # ── 그 외 ─────────────────────────────────────────────────────────
     "openai>=3.6.0",
     "python-dotenv>=1.2.3",
@@ -42,5 +39,6 @@ dependencies = [
     "google-auth-httplib2>=0.4.2",
     "google-auth-oauthlib>=1.4.1",
     "uvicorn>=0.52.4",
-    "httpx>=0.28.1"
+    "httpx>=0.28.1",
+    "langchain-ollama>=1.1.0",
 ]

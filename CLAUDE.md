@@ -278,9 +278,23 @@ uv add <패키지>
 
 | 장 | 필요한 키 |
 | :--- | :--- |
-| 04 · 05 | `OPENAI_API_KEY` |
-| 06 · 07 · 08 · 09 · 10 | `OPENAI_API_KEY` · `TAVILY_API_KEY` |
-| 11 | 위 + `SUPABASE_URL` · `SUPABASE_KEY` + 구글 드라이브 OAuth |
+| 01 ~ 03 | **없음** — 개념 장이라 `examples/`가 없습니다 |
+| 04 · 05 · 08 | `OPENAI_API_KEY` |
+| 06 · 09 · 10 | `OPENAI_API_KEY` · `TAVILY_API_KEY` |
+| **07** | 위 + **`SUPABASE_URL` · `SUPABASE_KEY`** (`supervisor_agent_web/database_agent.py`) |
+| 11 | 위 전부 + 구글 드라이브 OAuth |
+
+### 올라마 대안 (2026-08-31 추가)
+
+`langchain-ollama` **1.1.0**이 설치돼 있습니다. 상한(`langchain<2`)과 충돌하지 않습니다.
+
+- **`.env`의 `OLLAMA_MODEL`이 채워져 있으면 올라마, 비어 있으면 API** — 4·5·6·8장 `.env.example`에 칸을 만들어 뒀습니다
+- **적용 범위** — 4·5·8장은 도구 호출을 거의 안 써서 문제없음. **6장부터는 모델이 도구 호출을 지원해야** 함(예제 89개 중 36개가 도구 호출)
+- **검증** — `uv run python scripts/check-ollama.py`. 단순 호출 / 도구 호출 / 도구 선택 / 구조화 출력 넷을 재고, `tok/s`도 찍습니다
+
+> **모델 이름을 노트에 박지 않았습니다.** `.env`의 `OLLAMA_MODEL`로 넘겼습니다. 올라마 모델 태그도 OpenAI 모델명처럼 금방 바뀝니다.
+>
+> **이 PC는 GPU가 Intel 내장(Arc)입니다.** 올라마 가속은 NVIDIA·AMD 기준이라 **CPU로 떨어질 가능성이 큽니다.** 실제로 어떻게 잡히는지는 설치 후 확인이 필요합니다.
 
 > **`.env`·`credentials.json`·`token.json`은 `.gitignore`에 있습니다.** 확인 명령: `git check-ignore -v <경로>`
 >
