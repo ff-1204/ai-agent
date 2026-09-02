@@ -43,6 +43,35 @@ graph TD
 
 > **유형 네 가지를 알았고(7.1) → `Command` 로 넘기는 법을 배웠고(7.2) → 관리자 없이(7.3) → 관리자를 두고(7.4) → 에이전트를 도구로(7.5) → 계획을 먼저 세우는(7.6) 순으로 만들어 봤다.**
 
+## 공식 문서의 워크플로 패턴 다섯 개
+
+[1.4절](../ch01_llm-decision/01-04_LLM%20%EA%B8%B0%EB%B0%98%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C%2C%20%EC%9D%B4%EB%9F%B0%20%EA%B5%AC%EC%A1%B0%EB%A1%9C%20%EC%84%A4%EA%B3%84%EB%90%9C%EB%8B%A4.md)에서 **Routing** 하나를 배우며 "나머지 넷이 있다"고만 적어 뒀습니다. **그 넷이 전부 이 장에 있습니다.** 여기서 한 번에 맞춰 보세요.
+
+| 공식 문서 패턴 | 한 줄로 | 이 책에서 | 교재 표현 |
+| :--- | :--- | :--- | :--- |
+| **Routing** | 갈림길에서 **어디로 갈지** 고름 | [1.4절](../ch01_llm-decision/01-04_LLM%20%EA%B8%B0%EB%B0%98%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C%2C%20%EC%9D%B4%EB%9F%B0%20%EA%B5%AC%EC%A1%B0%EB%A1%9C%20%EC%84%A4%EA%B3%84%EB%90%9C%EB%8B%A4.md) · [7.4절](07-04_%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EB%A5%BC%20%EC%9A%94%EC%95%BD%ED%95%B4%EC%84%9C%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%97%90%20%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%23%EC%8A%88%ED%8D%BC%EB%B0%94%EC%9D%B4%EC%A0%80.md)의 `Router` | 라우터 기반 에이전트 |
+| **Prompt chaining** | **정해진 순서**로 이어서 실행 | [7.4절](07-04_%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EB%A5%BC%20%EC%9A%94%EC%95%BD%ED%95%B4%EC%84%9C%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%97%90%20%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%23%EC%8A%88%ED%8D%BC%EB%B0%94%EC%9D%B4%EC%A0%80.md) 크롤링 → 요약 → 저장 | — |
+| **Parallelization** | 여러 개를 **동시에** | [7.5절](07-05_%EC%B5%9C%EC%8B%A0%20%EB%AC%B8%EC%84%9C%20%EA%B2%80%EC%83%89%20%2B%20%EB%82%B4%EB%B6%80%20DB%20%EA%B2%80%EC%83%89%20%2B%20%ED%85%9C%ED%94%8C%EB%A6%BF%20%EB%8B%B5%EB%B3%80%203%EC%A4%91%20%EB%A9%80%ED%8B%B0%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%23%EC%8A%88%ED%8D%BC%EB%B0%94%EC%9D%B4%EC%A0%80.md)의 **`Send`** | — |
+| **Orchestrator-worker** | 관리자가 **일을 나눠 줌** | [7.4](07-04_%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EB%A5%BC%20%EC%9A%94%EC%95%BD%ED%95%B4%EC%84%9C%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%97%90%20%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%23%EC%8A%88%ED%8D%BC%EB%B0%94%EC%9D%B4%EC%A0%80.md) · [7.5](07-05_%EC%B5%9C%EC%8B%A0%20%EB%AC%B8%EC%84%9C%20%EA%B2%80%EC%83%89%20%2B%20%EB%82%B4%EB%B6%80%20DB%20%EA%B2%80%EC%83%89%20%2B%20%ED%85%9C%ED%94%8C%EB%A6%BF%20%EB%8B%B5%EB%B3%80%203%EC%A4%91%20%EB%A9%80%ED%8B%B0%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%23%EC%8A%88%ED%8D%BC%EB%B0%94%EC%9D%B4%EC%A0%80.md) · [7.6](07-06_%EC%9E%90%EB%A3%8C%20%EC%A1%B0%EC%82%AC%20%EC%A0%84%EB%AC%B8%EA%B0%80%20%2B%20%EB%AC%B8%EC%84%9C%20%EC%9E%91%EC%84%B1%20%EC%A0%84%EB%AC%B8%EA%B0%80%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%23%ED%94%8C%EB%9E%98%EB%8B%9D%20%EA%B8%B0%EB%B0%98%20%EC%8A%88%ED%8D%BC%EB%B0%94%EC%9D%B4%EC%A0%80.md) | 슈퍼바이저 |
+| **Evaluator-optimizer** | 결과를 **평가하고 다시 만듦** | [2.1절](../ch02_core-elements/02-01_%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EC%9D%98%20%EC%B6%94%EB%A1%A0%20%EB%8A%A5%EB%A0%A5%20-%20ReAct%EC%99%80%20Reflection.md) · [7.6절](07-06_%EC%9E%90%EB%A3%8C%20%EC%A1%B0%EC%82%AC%20%EC%A0%84%EB%AC%B8%EA%B0%80%20%2B%20%EB%AC%B8%EC%84%9C%20%EC%9E%91%EC%84%B1%20%EC%A0%84%EB%AC%B8%EA%B0%80%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%23%ED%94%8C%EB%9E%98%EB%8B%9D%20%EA%B8%B0%EB%B0%98%20%EC%8A%88%ED%8D%BC%EB%B0%94%EC%9D%B4%EC%A0%80.md)의 재계획 | Reflection |
+
+### 짚어 둘 것 셋
+
+**① 교재의 세 유형과 다섯 패턴은 축이 다릅니다.** 겹치는 것끼리 세면 헷갈립니다.
+
+| | 교재 (7.1절) | 공식 문서 |
+| :--- | :--- | :--- |
+| 나누는 기준 | **에이전트끼리 어떻게 연결되나** | **일을 어떤 모양으로 처리하나** |
+| 항목 | 네트워크 · 슈퍼바이저 · 플래닝 | 위의 다섯 |
+
+**한 예제가 두 이름을 동시에 가집니다.** 7.4절은 교재로는 *슈퍼바이저*, 공식 문서로는 *Orchestrator-worker* + *Routing* + *Prompt chaining*입니다.
+
+**② 한 절이 패턴 하나에 대응하지 않습니다.** 실제 시스템은 섞어 씁니다. [1.4절](../ch01_llm-decision/01-04_LLM%20%EA%B8%B0%EB%B0%98%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C%2C%20%EC%9D%B4%EB%9F%B0%20%EA%B5%AC%EC%A1%B0%EB%A1%9C%20%EC%84%A4%EA%B3%84%EB%90%9C%EB%8B%A4.md)의 *"둘은 배타적이지 않습니다"* 가 여기서도 그대로입니다.
+
+**③ Evaluator-optimizer만 이 장 밖에서 먼저 나옵니다.** 2.1절 Reflection이 그것이고, 7.6절에서 **계획을 다시 쓰는 형태**로 돌아옵니다. 대상이 *결과물*에서 *계획*으로 바뀐 것뿐입니다.
+
+> **검색할 때는 공식 문서 이름을 쓰세요.** "슈퍼바이저"로 찾으면 이 교재가 나오고, `Orchestrator-worker`로 찾으면 프레임워크 문서가 나옵니다.
+
 ## 절별 노트
 
 | 절 | 노트 파일 | 진도 |
