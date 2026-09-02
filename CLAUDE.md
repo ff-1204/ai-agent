@@ -292,6 +292,28 @@ uv add <패키지>
 - **적용 범위** — 4·5·8장은 도구 호출을 거의 안 써서 문제없음. **6장부터는 모델이 도구 호출을 지원해야** 함(예제 89개 중 36개가 도구 호출)
 - **검증** — `uv run python scripts/check-ollama.py`. 단순 호출 / 도구 호출 / 도구 선택 / 구조화 출력 넷을 재고, `tok/s`도 찍습니다
 
+**실측으로 확인된 것 (2026-08-31 · 사내 올라마 서버 · 9B 4비트 모델)**
+
+| 항목 | 결과 |
+| :--- | :--- |
+| 단순 호출 | ✅ |
+| 도구 호출 (이름·인자) | ✅ |
+| 도구 3개 중 선택 | ✅ 3/3 — **도구를 안 쓰는 판단까지** 맞힘 |
+| 구조화 출력 | ✅ **단 `method="function_calling"` 필요** |
+
+**꼭 필요한 설정 둘.** 안 잡으면 6장 이후가 막힙니다.
+
+```python
+llm = ChatOllama(model=..., temperature=0, reasoning=False)
+chain = llm.with_structured_output(Schema, method="function_calling")
+```
+
+- **`reasoning=False`** — 안 끄면 생각을 글로 뱉느라 같은 답에 **54초 vs 1.4초**
+- **`method="function_calling"`** — 기본값(`json_schema`)은 모델이 JSON 대신 값만 뱉어 `OutputParserException`
+- 스키마 필드는 **`Literal`로 좁히세요.** `str`이면 엉뚱한 값이 들어옵니다
+
+> **서버 주소와 모델 태그는 `.env`에만 있습니다**(git 무시). 사내 주소라 노트와 `.env.example`에는 자리표시자만 두었습니다.
+
 > **모델 이름을 노트에 박지 않았습니다.** `.env`의 `OLLAMA_MODEL`로 넘겼습니다. 올라마 모델 태그도 OpenAI 모델명처럼 금방 바뀝니다.
 >
 > **이 PC는 GPU가 Intel 내장(Arc)입니다.** 올라마 가속은 NVIDIA·AMD 기준이라 **CPU로 떨어질 가능성이 큽니다.** 실제로 어떻게 잡히는지는 설치 후 확인이 필요합니다.

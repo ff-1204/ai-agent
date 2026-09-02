@@ -12,6 +12,7 @@
 import os
 import sys
 import time
+from typing import Literal
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -61,7 +62,9 @@ from langchain_ollama import ChatOllama
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 
-llm = ChatOllama(model=MODEL, temperature=0, base_url=BASE)
+# reasoning=False — 생각을 글로 뱉는 모델(qwen3 계열 등)에서 응답이 크게 빨라집니다.
+#                   지원하지 않는 모델이면 무시됩니다.
+llm = ChatOllama(model=MODEL, temperature=0, base_url=BASE, reasoning=False)
 results = {}
 
 
@@ -147,21 +150,30 @@ sec("[4] 구조화 출력 — 1.2절의 라우터")
 
 
 class Category(BaseModel):
-    """문의를 분류한 결과."""
+    """고객 문의를 분류한 결과."""
 
-    category: str = Field(description="환불 / 배송 / 기타 중 하나")
-    reason: str = Field(description="그렇게 판단한 근거")
+    # Literal 로 좁힙니다. 그냥 str 이면 모델이 아무 말이나 채웁니다(1.2절).
+    category: Literal["환불", "배송", "기타"] = Field(description="문의 종류")
+    reason: str = Field(description="그렇게 판단한 근거. 한국어 한 문장.")
 
 
-try:
-    r = llm.with_structured_output(Category).invoke("이거 마음에 안 들어요. 돈 돌려주세요.")
-    print(f"  category : {r.category}")
-    print(f"  reason   : {r.reason[:50]}")
-    results["구조화 출력"] = r.category in ("환불", "배송", "기타")
-    if not results["구조화 출력"]:
-        print("  -> 셋 중 하나가 아닙니다. 프롬프트로 더 좁혀야 합니다.")
-except Exception as exc:
-    print(f"  실패: {type(exc).__name__}: {str(exc).splitlines()[0]}")
+# method 를 바꿔 가며 되는 것을 찾습니다. 기본값(json_schema)은
+# 작은 모델에서 JSON 대신 값만 뱉어 파싱이 깨지는 경우가 있습니다.
+for method in ("function_calling", "json_schema", "json_mode"):
+    try:
+        r = llm.with_structured_output(Category, method=method).invoke(
+            "이거 마음에 안 들어요. 돈 돌려주세요."
+        )
+        print(f"  method={method!r} 로 성공")
+        print(f"  category : {r.category}")
+        print(f"  reason   : {r.reason[:50]}")
+        results["구조화 출력"] = True
+        if method != "function_calling":
+            print(f"  -> 코드에서도 method={method!r} 를 지정하세요.")
+        break
+    except Exception as exc:
+        print(f"  method={method!r} 실패: {type(exc).__name__}: {str(exc).splitlines()[0][:52]}")
+else:
     results["구조화 출력"] = False
 
 
