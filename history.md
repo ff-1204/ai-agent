@@ -412,7 +412,7 @@ git config core.hooksPath scripts/hooks
 <!-- AUTO:COMMITS:START -->
 <!-- 이 절은 scripts/update-history.ps1 이 만듭니다. 직접 고치지 마세요. -->
 
-전체 커밋 86개. 판단의 배경은 위쪽 본문에 있습니다.
+전체 커밋 88개. 판단의 배경은 위쪽 본문에 있습니다.
 
 ### 2026-04-06  ·  1개  ·  Nayeon Park
 
@@ -534,11 +534,13 @@ git config core.hooksPath scripts/hooks
 | `12616d0` | docs(ch06): 6.5 RAG 를 올라마로 실습하고 notes.md 에 기록 |
 | `699e0fd` | docs: 커밋 이력 부록 갱신 |
 
-### 2026-09-04  ·  1개  ·  ff-1204
+### 2026-09-04  ·  3개  ·  ff-1204
 
 | 커밋 | 제목 |
 | :--- | :--- |
 | `7c22d97` | docs: 9장 MCP 패키지 설치 반영 (import 검사 21 -> 29/38) |
+| `afc70f2` | docs: 9장 패키지 판단 이력 기록 + 커밋 이력 부록 갱신 |
+| `2eaa096` | build: supabase 설치로 import 검사 38/38 통과 |
 
 <!-- AUTO:COMMITS:END -->
 
