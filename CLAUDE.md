@@ -241,16 +241,19 @@ K8s 저장소처럼 장별 면접 질문 세트를 둘 예정이지만 **아직 
 | 패키지 관리 | **conda 26.5.3** (미니포지) — 채널은 **`conda-forge` 단독** |
 | 파이썬 | **3.12.14** — conda 환경 `agent` |
 | 설치 위치 | `C:\Users\dorim\miniforge3\envs\agent` |
-| **설치 범위** | **4~6장.** 7장 이후 패키지는 아직 안 깔았습니다 (아래) |
+| **설치 범위** | **4~6장 + 9장.** 7·10·11장 패키지는 아직 안 깔았습니다 (아래) |
 
 ```
 langgraph 1.2.11 · langchain 1.3.18 · langchain-openai 1.6.0 · python-dotenv 1.2.3
 langchain-ollama 1.1.0 · langchain-text-splitters 1.1.2 · langchain-chroma 1.1.0
 langchain-community 0.4.2 · langchain-tavily 0.2.18 · chromadb 1.5.9
-jupyterlab 4.6.3 · ipython 9.17.1        ← 5·8장 노트북용
+mcp 1.28.1 · langchain-mcp-adapters 0.3.1     ← 9장
+jupyterlab 4.6.3 · ipython 9.17.1             ← 5·8장 노트북용
 ```
 
-> **`scripts/check-env.py` 는 아직 전부 통과하지 못합니다 — 21/38** (2026-09-03). 남은 실패는 `mcp`(9장) · `a2a-sdk`(10·11장) · `supabase`(7·11장)뿐입니다. 그 장에 갈 때 상한을 지켜 추가하세요. 장별 목록은 [STUDY.md](STUDY.md#올라마로-어디까지-되나)의 단서 상자에 있습니다.
+> **`scripts/check-env.py` 는 아직 전부 통과하지 못합니다 — 29/38** (2026-09-04). 남은 실패는 `a2a-sdk`(10·11장) 8건과 `supabase`(7·11장) 1건뿐입니다. 그 장에 갈 때 상한을 지켜 추가하세요. 장별 목록은 [STUDY.md](STUDY.md#올라마로-어디까지-되나)의 단서 상자에 있습니다.
+
+> **`langchain-mcp-adapters` 가 `pyproject.toml` 의 요구보다 한 패치 낮습니다.** `pyproject.toml` 은 `>=0.3.2` 인데 conda-forge 최신이 **0.3.1** 입니다. 저장소 규칙대로 conda 로 깔았고, **9장 예제에 필요한 API 는 전부 동작합니다** — 서버를 띄워 도구 목록·호출·프롬프트까지 확인했습니다(2026-09-04). 나중에 9장에서 이상한 동작이 나오면 이 지점을 의심하세요. 올리려면 `& $py -m pip install "langchain-mcp-adapters>=0.3.2"`.
 >
 > **`rag_agent` 는 패키지가 다 있어도 키 없이는 import 조차 안 됩니다.** 저자 코드가 `OpenAIEmbeddings` 를 모듈 최상단에서 만듭니다. 올라마로 돌리려면 `OllamaEmbeddings` 로 바꿔야 합니다.
 

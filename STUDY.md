@@ -105,7 +105,7 @@ Python 3.11 이상이 필요합니다. 이 저장소는 **3.12.14** 로 맞춰 �
 >
 > 아래 표의 `✅`는 **"API 키가 필요 없다"**는 뜻이지 **"지금 당장 돌아간다"**는 뜻이 아닙니다. 그 장의 패키지가 환경에 깔려 있어야 합니다.
 >
-> **현재 conda 환경 `agent` 에 깔린 것은 4~6장 범위입니다** (2026-09-03 · import 검사 **21/38 통과**). 확인 명령:
+> **현재 conda 환경 `agent` 에 깔린 것은 4~6장 + 9장입니다** (2026-09-04 · import 검사 **29/38 통과**). 확인 명령:
 >
 > ```powershell
 > python scripts/check-env.py
@@ -113,15 +113,18 @@ Python 3.11 이상이 필요합니다. 이 저장소는 **3.12.14** 로 맞춰 �
 >
 > | 장 | 추가로 깔아야 하는 패키지 |
 > | :--- | :--- |
-> | 04 · 05 · 06 · 08 | **없음** — 설치돼 있습니다 |
+> | 04 · 05 · 06 · 08 · **09** | **없음** — 설치돼 있습니다 |
 > | **07** | `supabase` |
-> | **09** | `mcp<2` · `langchain-mcp-adapters` |
-> | **10** | `a2a-sdk<1` · `mcp<2` · `uvicorn` |
+> | **10** | `a2a-sdk<1` · `uvicorn` |
 > | **11** | 위 전부 + `pypdf` · `google-api-python-client` 계열 |
 >
 > **5·8장 노트북은 이제 열립니다** — `jupyterlab 4.6.3` · `ipython 9.17.1` 설치됨. 커널은 `agent` 환경에 등록돼 있습니다.
 >
-> **6장 예제 중 `rag_agent` 만 예외입니다.** 저자 코드가 `OpenAIEmbeddings` 를 **모듈 최상단에서** 만들어 두어, 키 없이 import 하면 그 자리에서 `openai.OpenAIError: Missing credentials` 가 납니다. 올라마로 가려면 임베딩을 `OllamaEmbeddings` 로 바꿔야 합니다. `coding_agent`·`create_agent`·`web_agent` 는 키 없이 import 됩니다.
+> **6장 예제 중 `rag_agent` 만 예외입니다.** 저자 코드가 `OpenAIEmbeddings` 를 **모듈 최상단에서** 만들어 두어, 키 없이 import 하면 그 자리에서 `openai.OpenAIError: Missing credentials` 가 납니다. 올라마로 가려면 임베딩을 `OllamaEmbeddings` 로 바꿔야 합니다 — 옮겨 놓은 것이 [`ch06/practice/rag_agent/`](ch06_single-agent/practice/rag_agent) 에 있습니다. `coding_agent`·`create_agent`·`web_agent` 는 키 없이 import 됩니다.
+>
+> **9장은 서버를 띄워 실제로 붙어 봤습니다** (2026-09-04). `mcp 1.28.1` · `langchain-mcp-adapters 0.3.1` 로 도구 목록·도구 호출·프롬프트가 모두 동작하고, 교재가 쓰는 **v1 API**(`mcp.server.fastmcp` 등)도 그대로 있습니다. **LLM 도 API 키도 필요 없습니다.**
+>
+> 다만 저자 `client.py` 는 `input()` 대화형이고 `ChatOpenAI(gpt-4o)` 를 씁니다. 올라마로 돌리려면 6.5절처럼 `practice/` 로 옮겨 `ChatOllama` 로 바꿔야 합니다.
 >
 > ```powershell
 > conda install -n agent -c conda-forge --override-channels -y "<패키지><상한>"
