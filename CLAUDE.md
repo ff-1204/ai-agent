@@ -241,17 +241,36 @@ K8s 저장소처럼 장별 면접 질문 세트를 둘 예정이지만 **아직 
 | 패키지 관리 | **conda 26.5.3** (미니포지) — 채널은 **`conda-forge` 단독** |
 | 파이썬 | **3.12.14** — conda 환경 `agent` |
 | 설치 위치 | `C:\Users\dorim\miniforge3\envs\agent` |
-| **설치 범위** | **4~6장 + 9장.** 7·10·11장 패키지는 아직 안 깔았습니다 (아래) |
+| **설치 범위** | **1~11장 전부.** `scripts/check-env.py` **38/38 통과** (2026-09-04) |
 
 ```
 langgraph 1.2.11 · langchain 1.3.18 · langchain-openai 1.6.0 · python-dotenv 1.2.3
 langchain-ollama 1.1.0 · langchain-text-splitters 1.1.2 · langchain-chroma 1.1.0
 langchain-community 0.4.2 · langchain-tavily 0.2.18 · chromadb 1.5.9
-mcp 1.28.1 · langchain-mcp-adapters 0.3.1     ← 9장
-jupyterlab 4.6.3 · ipython 9.17.1             ← 5·8장 노트북용
+mcp 1.28.1 · langchain-mcp-adapters 0.3.1        ← 9장
+a2a-sdk 0.3.26 · uvicorn 0.52.4                  ← 10·11장
+supabase 2.31.0 (pip)                            ← 7·11장
+jupyterlab 4.6.3 · ipython 9.17.1                ← 5·8장 노트북용
 ```
 
-> **`scripts/check-env.py` 는 아직 전부 통과하지 못합니다 — 29/38** (2026-09-04). 남은 실패는 `a2a-sdk`(10·11장) 8건과 `supabase`(7·11장) 1건뿐입니다. 그 장에 갈 때 상한을 지켜 추가하세요. 장별 목록은 [STUDY.md](STUDY.md#올라마로-어디까지-되나)의 단서 상자에 있습니다.
+> **패키지는 다 깔렸지만 키가 없으면 못 도는 절이 있습니다.** Tavily·Supabase·구글 드라이브가 얽힌 절들입니다. 장별 가능 범위는 [STUDY.md](STUDY.md#올라마로-어디까지-되나)의 표를 보세요.
+
+### pip 로 들어간 것 — supabase 계열 9개뿐
+
+**나머지는 전부 conda-forge입니다.** supabase 만 예외인데, 이유가 conda-forge 쪽 문제입니다.
+
+```
+supabase 2.31.0 · supabase-auth · supabase-functions · postgrest · realtime
+storage3 · deprecation · strenum
+```
+
+> **conda-forge 의 `postgrest 2.31.0` 레시피가 `httpx>=0.26,<0.28` 을 요구합니다.** 그런데 `a2a-sdk` 는 `httpx>=0.28.1` 이라 **7장과 10장이 같은 환경에서 충돌**합니다.
+>
+> **업스트림(PyPI)에는 그 제약이 없습니다** — PyPI 의 `postgrest 2.31.0` 은 `httpx<0.29` 입니다. conda-forge 레시피 쪽이 좁게 잡힌 것이라, supabase 계열만 pip 로 넣었습니다.
+>
+> **`websockets` 는 pip 가 아니라 conda 로 먼저 내렸습니다** (16.1.1 → 15.0.1). `realtime` 이 `<16` 을 요구하는데, pip 가 conda 관리 패키지를 덮어쓰면 메타데이터가 어긋납니다. 15.0.1 은 `langgraph-sdk`·`langsmith`·`mcp`·`uvicorn` 요구를 모두 만족합니다.
+>
+> **결과적으로 `httpx 0.28.1` 과 `websockets 15.0.1` 이 그대로 유지됐고, `a2a` 와 `supabase` 가 한 프로세스에서 함께 import 됩니다.**
 
 > **`langchain-mcp-adapters` 가 `pyproject.toml` 의 요구보다 한 패치 낮습니다.** `pyproject.toml` 은 `>=0.3.2` 인데 conda-forge 최신이 **0.3.1** 입니다. 저장소 규칙대로 conda 로 깔았고, **9장 예제에 필요한 API 는 전부 동작합니다** — 서버를 띄워 도구 목록·호출·프롬프트까지 확인했습니다(2026-09-04). 나중에 9장에서 이상한 동작이 나오면 이 지점을 의심하세요. 올리려면 `& $py -m pip install "langchain-mcp-adapters>=0.3.2"`.
 >
