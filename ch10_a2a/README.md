@@ -88,9 +88,10 @@ graph TD
 
 ## `.env` 두는 위치
 
-⚠️ **`examples/.env`에 두어야 합니다.** `examples/multi_agent/*/agent.py`가 `dotenv_path="../../.env"`로, `agent_orchestrator.py`가 `"../.env"`로 **고정 경로**를 쓰기 때문에 장 폴더의 `.env`는 읽히지 않습니다.
+⚠️ **`examples/.env`에 두어야 합니다.** `examples/multi_agent/*/agent.py`가 `dotenv_path="../../.env"`로, `agent_orchestrator.py`가 `"../.env"`로 **고정 경로**를 쓰기 때문에 저장소 루트의 `.env`는 읽히지 않습니다. **이 장만 예외입니다.**
 
 ```powershell
+# 저장소 루트에서 한 번만
 copy .env.example .env
 ```
 
@@ -111,7 +112,7 @@ copy .env.example .env
 - `10-01_…md` ~ `10-04_…md` — 절별 학습 노트
 - `notes.md` — 장 전체 요약 (절 노트를 다 쓴 뒤 마지막에 정리)
 - `practice/` — 예제를 보지 않고 직접 쳐보는 공간
-- `.env.example` — 이 장에 필요한 API 키. `copy .env.example .env` 후 값을 채우세요
+- `.env` 는 이 폴더에 없습니다 — **저장소 루트의 [`.env.example`](../.env.example) 하나로 관리합니다**
 
 > **메모**  
 > 에이전트마다 포트가 다릅니다. 어떤 에이전트가 몇 번 포트를 쓰는지 `notes.md`에 표로 적어두면 디버깅이 훨씬 쉬워집니다.

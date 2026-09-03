@@ -72,9 +72,10 @@ graph TD
 
 ## `.env` 두는 위치
 
-장 폴더(`ch05_langgraph-basics/`)에 `.env`를 두면 됩니다. 노트북은 실행 위치 기준으로 탐색합니다.
+**저장소 루트의 `.env` 하나로 관리합니다.** 장 폴더에는 두지 않습니다. 노트북은 실행 위치 기준으로 탐색합니다.
 
 ```powershell
+# 저장소 루트에서 한 번만
 copy .env.example .env
 ```
 
@@ -96,7 +97,8 @@ copy .env.example .env
 - `05-01_…md` ~ `05-03_…md` — 절별 학습 노트
 - `notes.md` — 장 전체 요약 (절 노트를 다 쓴 뒤 마지막에 정리)
 - `practice/` — 예제를 보지 않고 직접 쳐보는 공간
-- `.env.example` — 이 장에 필요한 API 키. `copy .env.example .env` 후 값을 채우세요
+- `.env.example` — 이 장에 필요한 API 키. `# 저장소 루트에서 한 번만
+copy .env.example .env` 후 값을 채우세요
 
 ---
 

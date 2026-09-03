@@ -85,7 +85,7 @@ graph TD;
 
 | 파라미터 | 하는 일 | 관련 절 |
 | :--- | :--- | :--- |
-| `model` | 쓸 LLM | [4.4절](../ch04_dev-env/04-04_LLM%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0.md) |
+| `model` | 쓸 LLM | [4.4절](../ch04_dev-env/SETUP.md) |
 | `tools` | 도구 목록 | [6.3절](06-03_%EC%BD%94%EB%94%A9%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0.md) |
 | `system_prompt` | 시스템 프롬프트 | [1.2절](../ch01_llm-decision/01-02_LLM%EC%9D%84%20%EA%B8%B0%EB%B0%98%EC%9C%BC%EB%A1%9C%20%EC%9D%98%EC%82%AC%EA%B2%B0%EC%A0%95%ED%95%98%EB%8B%A4.md) |
 | `checkpointer` | 대화를 이어 가게 함 | [5.1절](../ch05_langgraph-basics/05-01_%EC%99%9C%20%EB%9E%AD%EA%B7%B8%EB%9E%98%ED%94%84%EC%9D%B8%EA%B0%80.md) |

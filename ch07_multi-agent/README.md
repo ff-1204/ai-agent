@@ -141,9 +141,10 @@ graph TD
 
 ## `.env` 두는 위치
 
-장 폴더에 `.env` 하나면 충분합니다. `langgraph dev`를 쓸 때는 `examples/.env`도 함께 두세요.
+**저장소 루트의 `.env` 하나로 관리합니다.** `langgraph dev`를 쓸 때는 `examples/.env`도 함께 두세요.
 
 ```powershell
+# 저장소 루트에서 한 번만
 copy .env.example .env
 ```
 
@@ -165,7 +166,7 @@ copy .env.example .env
 - `07-01_…md` ~ `07-06_…md` — 절별 학습 노트
 - `notes.md` — 장 전체 요약 (절 노트를 다 쓴 뒤 마지막에 정리)
 - `practice/` — 예제를 보지 않고 직접 쳐보는 공간
-- `.env.example` — 이 장에 필요한 API 키. `copy .env.example .env` 후 값을 채우세요
+- `.env` 는 이 폴더에 없습니다 — **저장소 루트의 [`.env.example`](../.env.example) 하나로 관리합니다**
 
 > **메모**  
 > 7.4부터 수파베이스(Supabase) 프로젝트가 필요합니다. 미리 계정을 만들고 URL/KEY를 `.env`에 넣어두면 흐름이 끊기지 않습니다.

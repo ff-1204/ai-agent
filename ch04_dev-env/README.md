@@ -4,15 +4,21 @@
 
 ## 학습 목표
 
-- VS Code + 아나콘다(또는 uv) 기반 파이썬 개발 환경을 구성할 수 있다
-- `.env`와 python-dotenv로 API 키를 안전하게 관리할 수 있다
-- OpenAI API와 랭체인으로 LLM을 호출할 수 있다
+- VS Code + 파이썬 개발 환경을 **상업적으로 문제없는 구성**으로 갖출 수 있다
+- `.env`와 python-dotenv로 **접속 정보(API 키·서버 주소)** 를 안전하게 관리할 수 있다
+- 랭체인으로 LLM을 호출할 수 있다 — **올라마(로컬/사내 서버)와 OpenAI API 양쪽**
 
-> **이 저장소는 uv로 구축돼 있습니다.** 4.1~4.4절에 **실제 실행 출력**이 들어 있습니다(관리자 권한 없이 설치한 기록). 교재의 아나콘다 절차는 그대로 두었고, 차이는 각 절의 `공식 문서와 다른 점`에 적었습니다.
+> **이 장의 노트는 [SETUP.md](SETUP.md) 하나로 합쳤습니다.** 절별 노트(4.1~4.4)를 나눠 두는 대신, 실제로 따라 하는 순서대로 한 문서에 정리했습니다. 모든 명령과 출력은 **실제로 실행해 얻은 것**이고, **깨끗한 상태에서 전 과정을 다시 돌려 검증**했습니다(2026-09-03).
 
-> **올라마로 어디까지 되나** — **이 장은 올라마만으로 전부 됩니다.** API 키가 없어도 끝까지 진행할 수 있습니다.
+> **교재의 아나콘다 대신 미니포지(Miniforge)를 씁니다.** `conda` 도구가 아니라 패키지를 받아오는 **채널**이 유료 대상이기 때문입니다. 근거와 대안은 [SETUP.md](SETUP.md) §2.1.
+
+> **이 장은 올라마 기준으로 씁니다.** 교재는 OpenAI API를 쓰지만, 4장의 실습은 **API 키 없이 올라마만으로 전부** 됩니다. `.env`의 `OLLAMA_MODEL` 한 줄로 오갑니다.
 >
-> 전체 지도는 [STUDY.md](../STUDY.md#올라마로-어디까지-되나)에 있습니다.
+> **모델은 `qwen3.5:2b`(2.3B) 입니다.** 4B 이하 여섯 개를 같은 검사로 돌려 골랐습니다 — 도구 호출·도구 선택·병렬 호출이 전부 되는 쪽입니다. 고른 근거와 탈락한 모델은 [SETUP.md](SETUP.md) §4.2.
+>
+> **올라마 서버가 이미 떠 있다면 설치도 필요 없습니다** — 주소만 있으면 됩니다([SETUP.md](SETUP.md) §4.4).
+>
+> 어느 장까지 올라마로 가는지는 [STUDY.md](../STUDY.md#올라마로-어디까지-되나)에 있습니다.
 
 ## 이 장의 이해 흐름
 
@@ -23,7 +29,7 @@ graph TD
     Q0["만들려면<br/>뭐부터 깔지?"] --> S1["<b>4.1</b> VS Code"]
     S1 --> Q1["인터프리터를 고르랬는데<br/>뭘 고르지?"]
     Q1 --> S2["<b>4.2</b> 가상 환경"]
-    S2 --> Q2["환경은 됐고…<br/>API 키는 어디에 두지?"]
+    S2 --> Q2["환경은 됐고…<br/>접속 정보는 어디에 두지?"]
     Q2 --> S3["<b>4.3</b> 환경변수"]
     S3 --> Q3["준비 끝.<br/>이제 어떻게 부르지?"]
     Q3 --> S4["<b>4.4</b> LLM 호출"]
@@ -34,71 +40,103 @@ graph TD
 | :--- | :--- | :--- |
 | **4.1** | 뭐부터 깔지? | `ModuleNotFoundError`의 **진짜 원인** |
 | **4.2** | 인터프리터를 어떻게 만들지? | 프로젝트 전용 파이썬 환경 |
-| **4.3** | API 키를 어디에 두지? | `.env`와 **커밋하면 안 되는 것들** |
+| **4.3** | 접속 정보를 어디에 두지? | `.env`와 **커밋하면 안 되는 것들** |
 | **4.4** | 이제 어떻게 부르지? | 1장 개념이 **코드 어디에 있는지** |
 
 > **막히면 4.1과 4.3을 다시 보세요.** 4장에서 문제가 나는 곳은 거의 **인터프리터 선택**과 **작업 디렉터리** 둘입니다.
 
 ### 4장 전체를 한 줄로
 
-> **편집기를 갖추고 인터프리터를 골랐고(4.1) → 프로젝트 전용 파이썬 환경을 만들었고(4.2) → API 키를 안전하게 두는 법을 익혔고(4.3) → LLM을 실제로 불러 봤다(4.4).**
+> **편집기를 갖추고 인터프리터를 골랐고(4.1) → 파이썬 환경과 올라마를 준비했고(4.2) → 접속 정보를 안전하게 두는 법을 익혔고(4.3) → 올라마로 LLM을 실제로 불러 봤다(4.4).**
 
-## 절별 노트
+## 노트
 
-| 절 | 노트 파일 | 진도 |
-| --- | --- | --- |
-| 4.1 | [`04-01_비주얼 스튜디오 코드 환경 설정하기.md`](04-01_%EB%B9%84%EC%A3%BC%EC%96%BC%20%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4%20%EC%BD%94%EB%93%9C%20%ED%99%98%EA%B2%BD%20%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0.md) | ☐ |
-| 4.2 | [`04-02_아나콘다 및 가상 환경 설정하기.md`](04-02_%EC%95%84%EB%82%98%EC%BD%98%EB%8B%A4%20%EB%B0%8F%20%EA%B0%80%EC%83%81%20%ED%99%98%EA%B2%BD%20%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0.md) | ☐ |
-| 4.3 | [`04-03_환경변수 설정하기.md`](04-03_%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%20%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0.md) | ☐ |
-| 4.4 | [`04-04_LLM 사용하기.md`](04-04_LLM%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0.md) | ☐ |
+| 문서 | 무엇이 있나 |
+| :--- | :--- |
+| **[SETUP.md](SETUP.md)** | 이 장 전체 — VS Code · 미니포지(라이선스 포함) · 파이썬 3.12.14 · 올라마(qwen3.5:2b) 설치와 연결 테스트 |
 
-<details><summary>소절까지 펼쳐보기</summary>
+교재 절 번호와 `SETUP.md` 의 대응은 이렇습니다.
 
-- [ ] **[4.1 비주얼 스튜디오 코드 환경 설정하기](04-01_%EB%B9%84%EC%A3%BC%EC%96%BC%20%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4%20%EC%BD%94%EB%93%9C%20%ED%99%98%EA%B2%BD%20%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0.md)**
+| 교재 | SETUP.md |
+| :--- | :--- |
+| 4.1 비주얼 스튜디오 코드 환경 설정하기 | §1 VS Code 설치 |
+| 4.2 아나콘다 및 가상 환경 설정하기 | §2 미니포지 · §3 파이썬 3.12.14 환경과 패키지 |
+| 4.3 환경변수 설정하기 | §4.4 `.env` 설정 |
+| 4.4 LLM 사용하기 | §4.5 연결 테스트 코드 (올라마 기준) |
+
+<details><summary>교재 소절 구성 펼쳐보기</summary>
+
+교재 상세 목차입니다. `SETUP.md` 는 이 순서를 따르되 아나콘다 부분만 미니포지로 바꿨습니다.
+
+- [ ] **4.1 비주얼 스튜디오 코드 환경 설정하기**
   - [ ] 4.1.1 [실습] VS Code 설치하기
   - [ ] 4.1.2 [실습] 프로젝트 폴더 생성하기
-- [ ] **[4.2 아나콘다 및 가상 환경 설정하기](04-02_%EC%95%84%EB%82%98%EC%BD%98%EB%8B%A4%20%EB%B0%8F%20%EA%B0%80%EC%83%81%20%ED%99%98%EA%B2%BD%20%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0.md)**
+- [ ] **4.2 아나콘다 및 가상 환경 설정하기**
   - [ ] 4.2.1 [실습] 아나콘다 설치하기
   - [ ] 4.2.2 [실습] 아나콘다 가상 환경 구성하기
-- [ ] **[4.3 환경변수 설정하기](04-03_%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%20%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0.md)**
+- [ ] **4.3 환경변수 설정하기**
   - [ ] 4.3.1 [실습] .env 파일로 환경변수 저장하기
   - [ ] 4.3.2 [실습] python-dotenv으로 환경변수 불러오기
-- [ ] **[4.4 LLM 사용하기](04-04_LLM%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0.md)**
+- [ ] **4.4 LLM 사용하기**
   - [ ] 4.4.1 [실습] OpenAI API 사용하기
   - [ ] 4.4.2 [실습] 랭체인으로 OpenAI LLM 호출하기
 
 </details>
 
-## 관련 예제 코드
+## 이 장의 코드
 
-| 내용 | 경로 |
+| 파일 | 내용 |
 | --- | --- |
-| 4.4 LLM 사용하기 | [`examples/4.4_main.py`](examples/4.4_main.py) |
+| [`check_ollama.py`](check_ollama.py) | 올라마 연결 테스트 — 단순 호출 · 도구 호출 · 구조화 출력 · 병렬 호출 |
+
+> **저자 원본 예제(`examples/`)는 이 장에서 지웠습니다.** 다른 장에는 그대로 있습니다. 원본이 필요하면 [upstream 저장소](https://github.com/gongwon-nayeon/hanbit-aiagent)에서 보세요.
 
 ## `.env` 두는 위치
 
-장 폴더(`ch04_dev-env/`)에 `.env`를 두면 됩니다. 예제가 `load_dotenv()`로 상위 폴더까지 찾아 올라갑니다.
+**저장소 루트의 `.env` 하나로 관리합니다.** 장 폴더에는 두지 않습니다 — 템플릿은 루트 [`.env.example`](../.env.example).
+
+올라마로 진행한다면 **채울 칸은 둘**입니다. `OPENAI_API_KEY`는 비워 둬도 됩니다.
+
+```
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=qwen3.5:2b
+```
+
+전체 형식과 주의사항은 [SETUP.md](SETUP.md) §4.4에 있습니다.
+
+> **`.env`는 `.gitignore`에 있습니다.** 확인: `git check-ignore -v .env`
+
+## 실행 방법
+
+**PATH에 넣지 않았으므로 `conda activate` 가 그냥은 안 됩니다.** 실행 방법 셋 중 하나를 고르세요([SETUP.md](SETUP.md) §2.3).
 
 ```powershell
-copy .env.example .env
+# 스크립트에서는 환경 파이썬을 전체 경로로 부르는 쪽이 안전합니다
+C:\Users\<사용자>\miniforge3\envs\agent\python.exe check_ollama.py
 ```
+
+> **`conda run` 은 쓰지 마세요.** 한글 출력이 깨지고 죽습니다(`UnicodeEncodeError: 'cp949' codec`).
 
 ## 참고 문서
 
 | 무엇을 볼 때 | 문서 |
 | --- | --- |
-| 4.2 가상환경 (uv 사용 시) | [uv 공식 문서](https://docs.astral.sh/uv/) |
+| 4.2 미니포지 설치 | [Miniforge](https://github.com/conda-forge/miniforge) |
+| 4.2 아나콘다 라이선스 | [Anaconda ToS](https://www.anaconda.com/legal/terms/terms-of-service) |
+| 4.2 conda 명령 | [conda 공식 문서](https://docs.conda.io/projects/conda/en/stable/) |
 | 4.3 환경변수 | [python-dotenv](https://saurabh-kumar.com/python-dotenv/) |
-| 4.4 LLM 호출 첫걸음 | [OpenAI · Quickstart](https://developers.openai.com/api/docs/quickstart) · [API keys](https://platform.openai.com/api-keys) |
+| 4.2 올라마 설치·모델 받기 | [Ollama](https://ollama.com/) · [모델 목록](https://ollama.com/library) |
+| 4.4 올라마 LLM 호출 | [LangChain · ChatOllama](https://docs.langchain.com/oss/python/integrations/chat/ollama) |
+| 4.4 올라마 REST API | [Ollama API 문서](https://github.com/ollama/ollama/blob/main/docs/api.md) |
+| 4.4 LLM 호출 첫걸음 (OpenAI) | [OpenAI · Quickstart](https://developers.openai.com/api/docs/quickstart) · [API keys](https://platform.openai.com/api-keys) |
 | 모델 선택·초기화 (`init_chat_model`) | [LangChain · Models](https://docs.langchain.com/oss/python/langchain/models) |
 | 설치 확인 | [Install LangGraph](https://docs.langchain.com/oss/python/langgraph/install) |
 
 ## 이 폴더 구성
 
-- `04-01_…md` ~ `04-04_…md` — 절별 학습 노트
-- `notes.md` — 장 전체 요약 (절 노트를 다 쓴 뒤 마지막에 정리)
-- `practice/` — 예제를 보지 않고 직접 쳐보는 공간
-- `.env.example` — 이 장에 필요한 API 키. `copy .env.example .env` 후 값을 채우세요
+- `SETUP.md` — 이 장의 노트. 환경 구축 전 과정
+- `check_ollama.py` — 올라마 연결 테스트
+- `.env` 는 이 폴더에 없습니다 — **저장소 루트의 [`.env.example`](../.env.example) 하나로 관리합니다**
 
 ---
 

@@ -1,8 +1,8 @@
 """올라마 모델이 이 책 예제를 감당할 수 있는지 검사합니다.
 
-    uv run python scripts/check-ollama.py
+    python scripts/check-ollama.py        # conda 환경 agent 에서
 
-모델은 .env 의 OLLAMA_MODEL 로 지정합니다. 없으면 첫 번째 설치된 모델을 씁니다.
+모델은 저장소 루트 .env 의 OLLAMA_MODEL 로 지정합니다. 없으면 첫 번째 설치된 모델을 씁니다.
 서버가 떠 있어야 합니다 (`ollama serve` 또는 트레이 앱).
 
 이 책 예제 89개 중 36개(40%)가 도구 호출을 씁니다. [2]가 실패하면
@@ -17,7 +17,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).parent.parent / "ch04_dev-env" / ".env")
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 BASE = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL = os.getenv("OLLAMA_MODEL", "")

@@ -89,9 +89,10 @@ graph TD
 
 ## `.env` 두는 위치
 
-장 폴더에 `.env`를 두면 클라이언트가 찾아 올라갑니다. MCP 서버를 각 폴더에서 직접 띄운다면 `examples/mcp_agent/.env`, `examples/mcp_multi_agent/.env`도 만들어두면 안전합니다.
+**저장소 루트의 `.env` 하나로 관리합니다.** 클라이언트가 위로 찾아 올라갑니다. MCP 서버를 각 폴더에서 직접 띄운다면 `examples/mcp_agent/.env`, `examples/mcp_multi_agent/.env`도 만들어두면 안전합니다.
 
 ```powershell
+# 저장소 루트에서 한 번만
 copy .env.example .env
 ```
 
@@ -113,7 +114,7 @@ copy .env.example .env
 - `09-01_…md` ~ `09-05_…md` — 절별 학습 노트
 - `notes.md` — 장 전체 요약 (절 노트를 다 쓴 뒤 마지막에 정리)
 - `practice/` — 예제를 보지 않고 직접 쳐보는 공간
-- `.env.example` — 이 장에 필요한 API 키. `copy .env.example .env` 후 값을 채우세요
+- `.env` 는 이 폴더에 없습니다 — **저장소 루트의 [`.env.example`](../.env.example) 하나로 관리합니다**
 
 > **메모**  
 > MCP 서버는 별도 프로세스로 실행됩니다. 터미널을 2개 열어 서버와 클라이언트를 각각 띄우는 흐름에 익숙해지세요.

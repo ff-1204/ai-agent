@@ -14,7 +14,7 @@
 | 02 | AI 에이전트를 구성하는 3가지 핵심 요소 | [`ch02_core-elements`](ch02_core-elements/README.md) | ✅ 4개 | — | ☐ |
 | 03 | 목적에 따른 에이전트 아키텍처 설계 기준 | [`ch03_architecture`](ch03_architecture/README.md) | ✅ 3개 | — | ☐ |
 | | **Part 02 | 랭그래프로 구현하는 AI 에이전트** | | | | |
-| 04 | 에이전트 개발 환경 구축 | [`ch04_dev-env`](ch04_dev-env/README.md) | ✅ 4개 | ✓ | ☐ |
+| 04 | 에이전트 개발 환경 구축 | [`ch04_dev-env`](ch04_dev-env/README.md) | ✅ [SETUP.md](ch04_dev-env/SETUP.md) | ✓ | ☐ |
 | 05 | 랭그래프 기반 에이전트 설계 | [`ch05_langgraph-basics`](ch05_langgraph-basics/README.md) | ✅ 3개 | ✓ | ☐ |
 | 06 | 싱글 에이전트 구현 | [`ch06_single-agent`](ch06_single-agent/README.md) | ✅ 5개 | ✓ | ☐ |
 | | **Part 03 | 멀티 에이전트 설계와 메모리 시스템 구현** | | | | |
@@ -41,7 +41,7 @@ ch06_single-agent/
 ├── 06-04_create_agent 상세 구조 이해하기.md
 ├── 06-05_RAG를 위한 에이전트 만들기.md
 ├── notes.md                                 # 장 전체 요약 (마지막에 정리)
-├── .env.example                             # 그 장에 필요한 API 키
+│                                           # (.env 는 장별로 두지 않습니다 - 저장소 루트 하나)
 ├── examples/                                # 저자 제공 원본 예제 코드
 │   ├── web_agent/  coding_agent/  create_agent/  rag_agent/
 │   └── langgraph.json
@@ -56,26 +56,25 @@ ch06_single-agent/
 ## 시작하기
 
 ```powershell
-# 1) 가상환경 (uv 사용 시) — 저장소 루트에서
-uv venv
-.venv\Scripts\activate
-uv sync
+# 1) 환경 만들기 — "Miniforge Prompt" 에서. 미니포지를 쓰는 이유는 SETUP.md §2.1
+conda create -n agent "python=3.12.14" -c conda-forge --override-channels -y
+conda activate agent
+conda install -c conda-forge --override-channels -y `
+  "langgraph<2" "langchain<2" "langchain-openai<2" python-dotenv "langchain-ollama<2"
 
-# 2) 아나콘다 사용 시 (책 4장)
-conda create -n langgraph python=3.12
-conda activate langgraph
-pip install -r requirements.txt
-
-# 3) 실습할 장으로 이동해 .env 준비
-cd ch06_single-agent
+# 2) .env 준비 — 저장소 루트 하나로 관리합니다 (한 번만)
 copy .env.example .env
 
-# 4) 랭그래프 스튜디오 (langgraph.json 이 있는 곳에서)
+# 3) 랭그래프 스튜디오 (langgraph.json 이 있는 곳에서)
 cd examples
 langgraph dev
 ```
 
-Python 3.11 이상이 필요합니다.
+> **`conda activate` 가 안 되면** 일반 PowerShell 이라 그렇습니다. 실행 방법 셋 중 하나를 고르세요 — [SETUP.md §2.3](ch04_dev-env/SETUP.md). 스크립트에서는 `…\miniforge3\envs\agent\python.exe` 를 직접 부르는 쪽이 안전합니다(`conda run` 은 한글이 깨집니다).
+
+> **위 설치는 4·5장 범위입니다.** 6장 이후 패키지(`mcp`·`a2a-sdk`·`langchain-tavily`·`supabase` 등)는 그 장에 갈 때 상한을 지켜 추가하세요([CLAUDE.md](CLAUDE.md) §5·§6).
+
+Python 3.11 이상이 필요합니다. 이 저장소는 **3.12.14** 로 맞춰 두었습니다.
 
 ## 필요한 API 키 · 외부 서비스
 
@@ -86,17 +85,55 @@ Python 3.11 이상이 필요합니다.
 | Supabase (`SUPABASE_URL`, `SUPABASE_KEY`) | 7, 11장 | DB · 벡터 스토어 |
 | Google Drive OAuth | 11장 | `credentials.json` (커밋 금지) |
 
+> **접속 정보는 저장소 루트의 [`.env`](.env.example) 하나로 관리합니다.** 장별 `.env`는 두지 않습니다 — 예제 대부분이 `load_dotenv()`를 인자 없이 불러 위로 찾아 올라갑니다.
+>
+> **예외는 10장뿐입니다.** `examples/multi_agent`의 저자 코드가 `dotenv_path="../.env"`처럼 경로를 박아 두어 `ch10_a2a/examples/.env`가 따로 필요합니다.
+>
 > `.env`와 자격증명 파일은 `.gitignore`에 등록되어 있습니다. 절대 커밋하지 마세요.
 
 ## 올라마로 어디까지 되나
 
 **`OPENAI_API_KEY` 자리는 올라마로 대체할 수 있습니다.** 나머지 서비스는 대체가 안 됩니다.
 
-> **실측 (2026-08-31)** — 실제 올라마 서버에서 확인했습니다. 설정과 수치는 [4.4절](ch04_dev-env/04-04_LLM%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0.md), 검사 방법은 `uv run python scripts/check-ollama.py`.
+> **실측 (2026-08-31)** — 사내 올라마 서버(9B)에서 확인했습니다. 검사 방법은 `scripts/check-ollama.py`.
+>
+> **실측 (2026-09-03)** — 이 PC에 올라마를 깔고 **`qwen3.5:2b`(2.3B)** 로 다시 확인했습니다. 도구 호출 · 도구 선택 · 병렬 호출이 전부 됩니다(CPU 9.2 tok/s). 설정·수치·모델 고른 근거는 [ch04 SETUP.md](ch04_dev-env/SETUP.md), 검사는 `ch04_dev-env/check_ollama.py`.
+>
+> **모델마다 되는 것이 다릅니다.** 같은 4B 이하라도 Phi-4 Mini는 도구를 아예 못 부릅니다. 모델을 바꾸면 위 표를 그대로 믿지 말고 검사부터 다시 돌리세요.
+
+> ### ⚠️ 이 표는 **키 기준**입니다. 패키지 조건은 따로입니다
+>
+> 아래 표의 `✅`는 **"API 키가 필요 없다"**는 뜻이지 **"지금 당장 돌아간다"**는 뜻이 아닙니다. 그 장의 패키지가 환경에 깔려 있어야 합니다.
+>
+> **현재 conda 환경 `agent` 에 깔린 것은 4~6장 범위입니다** (2026-09-03 · import 검사 **21/38 통과**). 확인 명령:
+>
+> ```powershell
+> python scripts/check-env.py
+> ```
+>
+> | 장 | 추가로 깔아야 하는 패키지 |
+> | :--- | :--- |
+> | 04 · 05 · 06 · 08 | **없음** — 설치돼 있습니다 |
+> | **07** | `supabase` |
+> | **09** | `mcp<2` · `langchain-mcp-adapters` |
+> | **10** | `a2a-sdk<1` · `mcp<2` · `uvicorn` |
+> | **11** | 위 전부 + `pypdf` · `google-api-python-client` 계열 |
+>
+> **5·8장 노트북은 이제 열립니다** — `jupyterlab 4.6.3` · `ipython 9.17.1` 설치됨. 커널은 `agent` 환경에 등록돼 있습니다.
+>
+> **6장 예제 중 `rag_agent` 만 예외입니다.** 저자 코드가 `OpenAIEmbeddings` 를 **모듈 최상단에서** 만들어 두어, 키 없이 import 하면 그 자리에서 `openai.OpenAIError: Missing credentials` 가 납니다. 올라마로 가려면 임베딩을 `OllamaEmbeddings` 로 바꿔야 합니다. `coding_agent`·`create_agent`·`web_agent` 는 키 없이 import 됩니다.
+>
+> ```powershell
+> conda install -n agent -c conda-forge --override-channels -y "<패키지><상한>"
+> ```
+>
+> **상한(`mcp<2`·`a2a-sdk<1`)을 반드시 지키세요.** 풀면 교재 예제 26개 파일이 깨집니다([CLAUDE.md](CLAUDE.md) §6). conda-forge에 없는 것은 같은 환경에 pip로 넣고 [CLAUDE.md](CLAUDE.md) §5에 기록하세요.
+>
+> **RAG를 쓰는 절(6.5 · 8.4 · 11.3)은 임베딩 모델도 받아야 합니다** — `ollama pull bge-m3` (아래).
 
 | 장 | 예제 | 올라마만으로 | 추가로 필요한 것 |
 | :--- | :--- | :---: | :--- |
-| **4** | `4.4_main.py` | **✅ 전부** | — |
+| **4** | `check_ollama.py` | **✅ 전부** | — |
 | **5** | 5.2 · 5.3 노트북 | **✅ 전부** | — |
 | **6** | `coding_agent` · `create_agent` | **✅** | — |
 | | `rag_agent` | **✅** | 임베딩 모델 (아래) |

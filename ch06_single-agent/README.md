@@ -95,9 +95,10 @@ graph TD
 
 ## `.env` 두는 위치
 
-장 폴더에 `.env` 하나면 충분합니다. 단 `langgraph dev`는 `examples/`에서 실행하므로, 스튜디오를 쓸 때는 `examples/.env`도 함께 두세요(`langgraph.json`의 `env` 설정이 그 위치를 가리킵니다).
+**저장소 루트의 `.env` 하나로 관리합니다.** 단 `langgraph dev`는 `examples/`에서 실행하므로, 스튜디오를 쓸 때는 `examples/.env`도 함께 두세요(`langgraph.json`의 `env` 설정이 그 위치를 가리킵니다).
 
 ```powershell
+# 저장소 루트에서 한 번만
 copy .env.example .env
 ```
 
@@ -122,7 +123,7 @@ copy .env.example .env
 - `06-01_…md` ~ `06-05_…md` — 절별 학습 노트
 - `notes.md` — 장 전체 요약 (절 노트를 다 쓴 뒤 마지막에 정리)
 - `practice/` — 예제를 보지 않고 직접 쳐보는 공간
-- `.env.example` — 이 장에 필요한 API 키. `copy .env.example .env` 후 값을 채우세요
+- `.env` 는 이 폴더에 없습니다 — **저장소 루트의 [`.env.example`](../.env.example) 하나로 관리합니다**
 
 > **메모**  
 > `langgraph dev`는 `langgraph.json`이 있는 디렉터리에서 실행합니다. 직접 만든 에이전트를 스튜디오로 띄우려면 `practice/`에 `langgraph.json`을 하나 만들어두세요.

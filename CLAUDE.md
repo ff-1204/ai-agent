@@ -232,49 +232,73 @@ K8s 저장소처럼 장별 면접 질문 세트를 둘 예정이지만 **아직 
 
 > **mermaid 검증은 아직 자동화하지 않았습니다.** K8s 저장소는 Node.js 컨테이너로 `mermaid.parse()`를 돌립니다. 이 PC에는 Node.js도 podman도 확인되지 않았습니다. 당분간은 GitHub에서 렌더링을 눈으로 확인하세요.
 
-## 5. 실습 환경 — 구축 완료 (2026-08-31)
+## 5. 실습 환경 — conda 단일 환경 (2026-09-03 전환)
+
+**uv를 걷어내고 conda(미니포지) 하나로 갔습니다.** 설치 절차 전체는 [ch04 SETUP.md](ch04_dev-env/SETUP.md)에 있고, 이 절은 작업할 때 알아야 할 것만 적습니다.
 
 | | |
 | :--- | :--- |
-| 패키지 관리 | **uv 0.12.7** — winget 사용자 범위 설치 |
-| 파이썬 | **3.12.14** — uv 관리형. `.python-version`에 `3.12` 고정 |
-| 가상환경 | `.venv/` — `uv sync`가 만듭니다 |
-| 검증 | 교재 예제 import **38종 통과**, 그래프 컴파일·체크포인터 동작 확인 |
+| 패키지 관리 | **conda 26.5.3** (미니포지) — 채널은 **`conda-forge` 단독** |
+| 파이썬 | **3.12.14** — conda 환경 `agent` |
+| 설치 위치 | `C:\Users\dorim\miniforge3\envs\agent` |
+| **설치 범위** | **4~6장.** 7장 이후 패키지는 아직 안 깔았습니다 (아래) |
 
-```powershell
-uv run python scripts/check-env.py
+```
+langgraph 1.2.11 · langchain 1.3.18 · langchain-openai 1.6.0 · python-dotenv 1.2.3
+langchain-ollama 1.1.0 · langchain-text-splitters 1.1.2 · langchain-chroma 1.1.0
+langchain-community 0.4.2 · langchain-tavily 0.2.18 · chromadb 1.5.9
+jupyterlab 4.6.3 · ipython 9.17.1        ← 5·8장 노트북용
 ```
 
-`scripts/check-env.py`는 **`examples/` 에서 뽑아낸 import 문을 그대로 시험합니다.** API 키가 없어도 돕니다. **의존성을 건드린 뒤에는 이걸 먼저 돌리세요** — §6의 상한이 풀렸는지 여기서 잡힙니다.
-
-> **관리자 권한이 필요 없습니다.** 회사 노트북이라 계정에 관리자 권한이 없습니다. uv는 `~\.local\bin`(이미 PATH에 있음)과 사용자 프로필에만 씁니다. 시스템 파이썬을 건드리지 않습니다.
+> **`scripts/check-env.py` 는 아직 전부 통과하지 못합니다 — 21/38** (2026-09-03). 남은 실패는 `mcp`(9장) · `a2a-sdk`(10·11장) · `supabase`(7·11장)뿐입니다. 그 장에 갈 때 상한을 지켜 추가하세요. 장별 목록은 [STUDY.md](STUDY.md#올라마로-어디까지-되나)의 단서 상자에 있습니다.
 >
-> **`python`은 여전히 Microsoft Store 스텁입니다.** 이걸 고치지 않았습니다. **`uv run python …` 으로 실행하세요.** `python …` 을 직접 치면 스텁이 잡혀 아무 일도 일어나지 않습니다.
+> **`rag_agent` 는 패키지가 다 있어도 키 없이는 import 조차 안 됩니다.** 저자 코드가 `OpenAIEmbeddings` 를 모듈 최상단에서 만듭니다. 올라마로 돌리려면 `OllamaEmbeddings` 로 바꿔야 합니다.
 
-### 실행 방법
+> **`pyproject.toml`·`uv.lock`·`.python-version`은 남겨 뒀지만 이제 기준이 아닙니다.** 버전 상한의 **근거 문서**로만 쓰세요(§6). 특히 `pyproject.toml`은 `openai>=3.6.0`을 요구하는데 conda 환경에는 **2.53.0**이 깔렸습니다 — `langchain-openai 1.6.0`이 `openai>=2.45.0,<4.0.0`을 허용해서입니다. 4장 범위에서는 문제가 없었습니다.
 
-```powershell
-cd C:\Users\dorim\Study\ai-agent
-uv run python ch06_single-agent/practice/my_agent.py
-```
+### 실행 방법 — 이게 제일 자주 걸립니다
 
-```powershell
-uv run jupyter lab
-```
+**PATH에 넣지 않았습니다.** 그래서 부르는 방법이 셋으로 갈립니다.
 
-`uv run`은 **필요하면 `.venv`를 알아서 맞춰 줍니다.** 활성화(`activate`)하지 않아도 됩니다.
-
-패키지를 추가할 때는 `pip install`이 아니라:
+| 상황 | 방법 |
+| :--- | :--- |
+| 대화형 | 시작 메뉴 → **"Miniforge Prompt"**. `conda activate agent` 가 바로 됩니다 |
+| VS Code 터미널·PowerShell | `conda init powershell` 을 **한 번** 실행하고 창을 다시 엽니다 |
+| **스크립트·자동화** | 환경 파이썬을 **전체 경로로** 부릅니다 (아래) |
 
 ```powershell
-uv add <패키지>
+$conda = "C:\Users\dorim\miniforge3\Scripts\conda.exe"
+$py    = "C:\Users\dorim\miniforge3\envs\agent\python.exe"
+
+& $py ch06_single-agent/practice/my_agent.py
+& $py ch04_dev-env/check_ollama.py
 ```
 
-> **`uv add`는 `pyproject.toml`을 고칩니다.** §6의 상한(`mcp<2`·`a2a-sdk<1`)이 걸린 패키지는 건드리지 마세요.
+> **`conda activate` 를 그냥 치면 실패합니다.** `CondaError: Run 'conda init' before 'conda activate'`
+>
+> **`conda run -n agent python …` 은 쓰지 마세요.** conda가 자식 출력을 cp949로 다시 찍어 **한글이 깨지고 죽습니다**(`UnicodeEncodeError: 'cp949' codec`). 이 저장소의 검사 스크립트는 한국어를 출력합니다.
+
+패키지를 추가할 때는 conda-forge를 먼저 봅니다.
+
+```powershell
+& $conda install -n agent -c conda-forge --override-channels -y "<패키지><상한>"
+```
+
+> **`--override-channels` 를 붙이세요.** 설정이 꼬여도 유료 대상인 `defaults` 채널을 타지 않습니다. 이유는 [SETUP.md](ch04_dev-env/SETUP.md) §2.1.
+>
+> **상한을 지키세요.** §6의 `mcp<2`·`a2a-sdk<1`·`langchain<2` 는 풀면 교재 예제가 깨집니다.
+>
+> **conda-forge에 없으면** 그때만 `& $py -m pip install …` 로 같은 환경에 넣고, 무엇을 pip로 넣었는지 여기 적어 두세요.
 
 ### API 키
 
-장별 `.env`를 **빈 값으로 만들어 뒀습니다.** 값만 채우면 됩니다.
+**접속 정보는 저장소 루트의 `.env` 하나로 관리합니다** (2026-09-03 통합). 장별 `.env`·`.env.example`은 삭제했습니다. 템플릿은 루트 [`.env.example`](.env.example).
+
+> **왜 하나로 합쳐도 되나.** 예제 89개 중 30개가 `load_dotenv()`를 **인자 없이** 부릅니다. python-dotenv가 현재 폴더에서 위로 올라가며 찾으므로 어느 장에서 실행해도 루트 `.env`가 잡힙니다.
+>
+> **예외는 10장뿐입니다.** `ch10_a2a/examples/multi_agent`의 저자 코드가 `dotenv_path="../../.env"` / `"../.env"` 로 **경로를 박아** 두었습니다. 그 예제만 `ch10_a2a/examples/.env` 가 따로 필요합니다. `examples/**/.env.example` 은 저자 원본이라 지우지 않았습니다.
+>
+> **`.env` 안에 사내 올라마 서버 설정이 주석으로 보존돼 있습니다.** 통합 전 ch05~ch11이 쓰던 값입니다. 두 줄의 주석을 바꾸면 로컬 ↔ 사내를 오갈 수 있습니다.
 
 | 장 | 필요한 키 |
 | :--- | :--- |
@@ -284,39 +308,51 @@ uv add <패키지>
 | **07** | 위 + **`SUPABASE_URL` · `SUPABASE_KEY`** (`supervisor_agent_web/database_agent.py`) |
 | 11 | 위 전부 + 구글 드라이브 OAuth |
 
-### 올라마 대안 (2026-08-31 추가)
+### 올라마 — 로컬 설치로 전환 (2026-09-03)
 
-`langchain-ollama` **1.1.0**이 설치돼 있습니다. 상한(`langchain<2`)과 충돌하지 않습니다.
+이 PC에 올라마 **0.33.2** 를 깔았습니다. API 키 없이 4·5·8장을 진행할 수 있습니다.
 
-- **`.env`의 `OLLAMA_MODEL`이 채워져 있으면 올라마, 비어 있으면 API** — 4·5·6·8장 `.env.example`에 칸을 만들어 뒀습니다
+- **`.env`의 `OLLAMA_MODEL`이 채워져 있으면 올라마, 비어 있으면 API**
+- **모델은 `qwen3.5:2b`** (2.3B · Q8_0 · 컨텍스트 262k). 고른 근거는 [SETUP.md](ch04_dev-env/SETUP.md) §4.2
 - **적용 범위** — 4·5·8장은 도구 호출을 거의 안 써서 문제없음. **6장부터는 모델이 도구 호출을 지원해야** 함(예제 89개 중 36개가 도구 호출)
-- **검증** — `uv run python scripts/check-ollama.py`. 단순 호출 / 도구 호출 / 도구 선택 / 구조화 출력 넷을 재고, `tok/s`도 찍습니다
+- **검증** — `& $py ch04_dev-env/check_ollama.py` (검사 4종) · `& $py scripts/check-parallel-tools.py <모델...>` (모델 여러 개 비교)
 
-**실측으로 확인된 것 (2026-08-31 · 사내 올라마 서버 · 9B 4비트 모델)**
+**실측 (2026-09-03 · 로컬 · qwen3.5:2b · CPU)**
 
 | 항목 | 결과 |
 | :--- | :--- |
-| 단순 호출 | ✅ |
+| 단순 호출 | ✅ 7.2 ~ 9.9 tok/s (재볼 때마다 다름) |
 | 도구 호출 (이름·인자) | ✅ |
-| 도구 3개 중 선택 | ✅ 3/3 — **도구를 안 쓰는 판단까지** 맞힘 |
-| 구조화 출력 | ✅ **단 `method="function_calling"` 필요** |
+| 도구 2개 중 선택 | ✅ 도구를 안 쓰는 판단까지 맞힘 |
+| **병렬 호출** | ✅ 한 응답에 도구 2건 |
+| 구조화 출력 | ✅ **단 `method="json_schema"`** |
 
 **꼭 필요한 설정 둘.** 안 잡으면 6장 이후가 막힙니다.
 
 ```python
-llm = ChatOllama(model=..., temperature=0, reasoning=False)
-chain = llm.with_structured_output(Schema, method="function_calling")
+llm = ChatOllama(model=MODEL, temperature=0, base_url=BASE, reasoning=False)
+chain = llm.with_structured_output(Schema, method="json_schema")   # 모델마다 다름 - 아래
 ```
 
-- **`reasoning=False`** — 안 끄면 생각을 글로 뱉느라 같은 답에 **54초 vs 1.4초**
-- **`method="function_calling"`** — 기본값(`json_schema`)은 모델이 JSON 대신 값만 뱉어 `OutputParserException`
+- **`reasoning=False`** — 안 끄면 생각을 글로 뱉느라 같은 답에 몇 배가 걸립니다
 - 스키마 필드는 **`Literal`로 좁히세요.** `str`이면 엉뚱한 값이 들어옵니다
 
-> **서버 주소와 모델 태그는 `.env`에만 있습니다**(git 무시). 사내 주소라 노트와 `.env.example`에는 자리표시자만 두었습니다.
+> **`method` 는 모델마다 다릅니다. 이게 이 절에서 제일 중요합니다.**
+>
+> | 모델 | 되는 method |
+> | :--- | :--- |
+> | 로컬 `qwen3.5:2b` · `qwen3:1.7b` | **`json_schema`** — `function_calling` 은 `None` 을 뱉어 `AttributeError` |
+> | 사내 서버 `qwen3.5:9b-q4_K_M` (2026-08-31 실측) | `function_calling` |
+>
+> **모델을 바꾸면 `check_ollama.py` 부터 돌리세요.** 세 method를 차례로 시도해 되는 것을 알려 줍니다.
+
+> **`ollama show` 의 `capabilities: tools` 를 믿지 마세요.** 4B 이하 6종을 재보니 **전부 `tools` 를 선언하는데** Granite 4.2 3B와 Phi-4 Mini는 실패합니다 — 형식을 못 지켜 본문에 텍스트로 뱉습니다. **크기가 능력을 정하지도 않습니다**(0.9B는 되고 3.8B는 안 됨).
+
+> **Intel Arc 건은 확인됐습니다.** 올라마가 내장 GPU를 **인식은 하지만 일부러 버리고** CPU로 갑니다(`dropping integrated GPU; to enable, set OLLAMA_IGPU_ENABLE=1`). 켰을 때 더 빠른지는 아직 안 재봤습니다. CPU만으로도 쓸 만합니다.
 
 > **모델 이름을 노트에 박지 않았습니다.** `.env`의 `OLLAMA_MODEL`로 넘겼습니다. 올라마 모델 태그도 OpenAI 모델명처럼 금방 바뀝니다.
 >
-> **이 PC는 GPU가 Intel 내장(Arc)입니다.** 올라마 가속은 NVIDIA·AMD 기준이라 **CPU로 떨어질 가능성이 큽니다.** 실제로 어떻게 잡히는지는 설치 후 확인이 필요합니다.
+> **사내 서버를 쓸 때는 `OLLAMA_BASE_URL` 만 그 주소로 바꿉니다.** 주소는 `.env`에만 두세요(git 무시).
 
 > **`.env`·`credentials.json`·`token.json`은 `.gitignore`에 있습니다.** 확인 명령: `git check-ignore -v <경로>`
 >
@@ -324,8 +360,9 @@ chain = llm.with_structured_output(Schema, method="function_calling")
 
 ### 그 외
 
-- `uv.lock`은 **갱신했습니다** (2026-08-31, 상한 안에서 최신). 재현하려면 `uv sync` (`--upgrade` 없이)
-- `requirements.txt`는 저자 원본 스냅숏이라 기준이 아닙니다. 필요하면 `uv export`로 다시 뽑습니다
+- **`uv`·`.venv`는 지웠습니다** (2026-09-03). `uv.lock`·`pyproject.toml`은 파일로 남았지만 **재현 기준이 아닙니다** — 버전 상한의 근거로만 봅니다(§6)
+- `requirements.txt`는 저자 원본 스냅숏이라 기준이 아닙니다
+- **환경을 재현할 방법은 [SETUP.md](ch04_dev-env/SETUP.md) 하나입니다.** 그 문서는 **깨끗한 상태에서 전 과정을 다시 돌려 검증**했습니다(2026-09-03). 환경 관련 절차를 고칠 때는 SETUP.md를 고치고, 이 절에는 요약만 남기세요
 - **이제 실측 출력을 노트에 넣을 수 있습니다.** 다만 §3의 규칙은 그대로 — LLM 응답에는 `(실행할 때마다 달라집니다)`를 덧붙이고, 검색 결과처럼 시점에 의존하는 것은 넣지 않습니다
 
 ## 6. 버전 함정 — 문서를 볼 때 반드시 확인

@@ -112,9 +112,10 @@ graph TD
 
 ## `.env` 두는 위치
 
-장 폴더에 `.env`를 두면 됩니다. 구글 드라이브 `credentials.json`은 `examples/` 안, 실행하는 위치에 두세요.
+**저장소 루트의 `.env` 하나로 관리합니다.** 구글 드라이브 `credentials.json`은 `examples/` 안, 실행하는 위치에 두세요.
 
 ```powershell
+# 저장소 루트에서 한 번만
 copy .env.example .env
 ```
 
@@ -137,7 +138,7 @@ copy .env.example .env
 - `11-01_…md` ~ `11-06_…md` — 절별 학습 노트
 - `notes.md` — 장 전체 요약 (절 노트를 다 쓴 뒤 마지막에 정리)
 - `practice/` — 예제를 보지 않고 직접 쳐보는 공간
-- `.env.example` — 이 장에 필요한 API 키. `copy .env.example .env` 후 값을 채우세요
+- `.env` 는 이 폴더에 없습니다 — **저장소 루트의 [`.env.example`](../.env.example) 하나로 관리합니다**
 
 > **메모**  
 > 구글 드라이브 OAuth 자격증명(`credentials.json`)과 수파베이스 프로젝트가 모두 필요합니다. 11장 시작 전에 준비해두세요. 자격증명 파일은 절대 깃에 커밋하지 마세요.
