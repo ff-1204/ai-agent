@@ -409,7 +409,7 @@ git config core.hooksPath scripts/hooks
 <!-- AUTO:COMMITS:START -->
 <!-- 이 절은 scripts/update-history.ps1 이 만듭니다. 직접 고치지 마세요. -->
 
-전체 커밋 82개. 판단의 배경은 위쪽 본문에 있습니다.
+전체 커밋 84개. 판단의 배경은 위쪽 본문에 있습니다.
 
 ### 2026-04-06  ·  1개  ·  Nayeon Park
 
@@ -522,11 +522,13 @@ git config core.hooksPath scripts/hooks
 | `fe1a709` | feat(ollama): 실제 올라마 서버로 검증, 필요한 설정 둘 문서화 |
 | `37df4d3` | docs: 올라마 기반 실습 지도 (4~11장) + 임베딩 모델 실측 |
 
-### 2026-09-03  ·  1개  ·  ff-1204
+### 2026-09-03  ·  3개  ·  ff-1204
 
 | 커밋 | 제목 |
 | :--- | :--- |
 | `a804f09` | build: conda 단일 환경 전환 및 4장을 SETUP.md 하나로 재구성 |
+| `24ce3be` | docs: 커밋 이력 부록 갱신 |
+| `12616d0` | docs(ch06): 6.5 RAG 를 올라마로 실습하고 notes.md 에 기록 |
 
 <!-- AUTO:COMMITS:END -->
 
