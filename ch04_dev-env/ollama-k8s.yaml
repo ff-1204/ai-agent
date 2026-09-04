@@ -108,14 +108,14 @@ spec:
             failureThreshold: 60        # 최대 5분
           readinessProbe:
             httpGet:
-              path: /api/tags
+              path: /api/version
               port: http
-            periodSeconds: 10
+            periodSeconds: 30
           livenessProbe:
             httpGet:
               path: /api/version
               port: http
-            periodSeconds: 20
+            periodSeconds: 60
             failureThreshold: 3
       volumes:
         - name: models
