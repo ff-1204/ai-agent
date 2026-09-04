@@ -1,6 +1,6 @@
 # 올라마를 윈도우에 설치하기
 
-[SETUP.md](SETUP.md) §4 가 요구하는 **서버 주소를 만드는 문서**입니다. 붙을 서버가 이미 있으면 건너뛰세요.
+[SETUP.md](../SETUP.md) §4 가 요구하는 **서버 주소를 만드는 문서**입니다. 붙을 서버가 이미 있으면 건너뛰세요.
 
 결과 주소: `http://localhost:11434` · 검증: 2026-09-03 · Windows 11 · **관리자 권한 불필요**
 
@@ -26,7 +26,7 @@ ollama pull bge-m3
 (Invoke-WebRequest http://localhost:11434/api/version).Content   # {"version":"0.33.2"}
 ```
 
-여기까지 되면 [SETUP.md](SETUP.md) §4 로 돌아가 `.env` 에 주소를 적습니다.
+여기까지 되면 [SETUP.md](../SETUP.md) §4 로 돌아가 `.env` 에 주소를 적습니다.
 
 ---
 
@@ -56,4 +56,4 @@ Remove-Item -LiteralPath "$env:USERPROFILE\.ollama" -Recurse -Force    # 모델�
 
 ---
 
-[⬅ Chapter 04](README.md) · [SETUP.md](SETUP.md) · [쿠버네티스에 배포](ollama-k8s.md)
+[⬅ Chapter 04](../README.md) · [SETUP.md](../SETUP.md) · [쿠버네티스에 배포](k8s.md)

@@ -1,8 +1,8 @@
 # 올라마를 쿠버네티스에 올리기
 
-[SETUP.md](SETUP.md) §4 가 요구하는 **서버 주소를 만드는 문서**입니다. 주소가 나오면 `.env` 에 적고 `SETUP.md` 로 돌아가면 됩니다.
+[SETUP.md](../SETUP.md) §4 가 요구하는 **서버 주소를 만드는 문서**입니다. 주소가 나오면 `.env` 에 적고 `SETUP.md` 로 돌아가면 됩니다.
 
-매니페스트: [`ollama-k8s.yaml`](ollama-k8s.yaml) — PVC · Deployment · Service · 모델 pull Job
+매니페스트: [`k8s.yaml`](k8s.yaml) — PVC · Deployment · Service · 모델 pull Job
 검증: 2026-09-04 사내 클러스터(NFS · NodePort)에서 전 과정 확인
 
 ---
@@ -12,7 +12,7 @@
 `namespace` 와 `storageClassName` 두 곳만 환경에 맞게 고칩니다.
 
 ```bash
-kubectl apply -f ollama-k8s.yaml
+kubectl apply -f k8s.yaml
 kubectl -n <네임스페이스> rollout status deploy/ollama
 kubectl -n <네임스페이스> logs -f job/ollama-pull-models    # 모델 받는 중
 ```
@@ -75,4 +75,4 @@ GPU 구성 · 컨텍스트를 32k 로 키웠을 때의 메모리 · `NUM_PARALLE
 
 ---
 
-[⬅ Chapter 04](README.md) · [SETUP.md](SETUP.md) · [윈도우에 설치](ollama-windows.md)
+[⬅ Chapter 04](../README.md) · [SETUP.md](../SETUP.md) · [윈도우에 설치](windows.md)

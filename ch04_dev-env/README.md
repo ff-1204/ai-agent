@@ -44,9 +44,9 @@ graph TD
 | 파일 | 무엇 |
 | :--- | :--- |
 | **[SETUP.md](SETUP.md)** | **이 장의 전부.** VS Code · 미니포지 · 파이썬 · 올라마 연결 |
-| [`check_ollama.py`](check_ollama.py) | 연결 테스트 — 단순 호출 · 도구 호출 · 구조화 출력 · 병렬 호출 |
-| [ollama-windows.md](ollama-windows.md) | 부록 · 서버를 이 PC 에 준비 |
-| [ollama-k8s.md](ollama-k8s.md) · [`ollama-k8s.yaml`](ollama-k8s.yaml) | 부록 · 서버를 쿠버네티스에 준비 (교재 범위 밖) |
+| [`ollama/check_ollama.py`](ollama/check_ollama.py) | 연결 테스트 — 단순 호출 · 도구 호출 · 구조화 출력 · 병렬 호출 |
+| [ollama/windows.md](ollama/windows.md) | 부록 · 서버를 이 PC 에 준비 |
+| [ollama/k8s.md](ollama/k8s.md) · [`ollama/k8s.yaml`](ollama/k8s.yaml) | 부록 · 서버를 쿠버네티스에 준비 (교재 범위 밖) |
 
 `.env` 는 이 폴더에 없습니다 — **저장소 루트의 [`.env.example`](../.env.example) 하나로 관리합니다.**
 

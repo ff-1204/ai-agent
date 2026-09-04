@@ -83,7 +83,7 @@ $conda = "C:\Users\<사용자>\miniforge3\Scripts\conda.exe"
 | 서버가 | |
 | :--- | :--- |
 | 있다 | 주소만 아래 `.env` 에 |
-| 없다 | [윈도우에 설치](ollama-windows.md) 또는 [쿠버네티스에 배포](ollama-k8s.md) |
+| 없다 | [윈도우에 설치](ollama/windows.md) 또는 [쿠버네티스에 배포](ollama/k8s.md) |
 
 ### `.env` — 저장소 루트 하나로 관리합니다
 
@@ -105,7 +105,7 @@ OPENAI_API_KEY=
 ### 연결 테스트
 
 ```powershell
-C:\Users\<사용자>\miniforge3\envs\agent\python.exe ch04_dev-env\check_ollama.py
+C:\Users\<사용자>\miniforge3\envs\agent\python.exe ch04_dev-env\ollama\check_ollama.py
 ```
 
 ```
@@ -151,7 +151,7 @@ $py    = "C:\Users\<사용자>\miniforge3\envs\agent\python.exe"
 & $conda config --show channels                   # conda-forge 만
 & $py --version                                   # 3.12.14
 (Invoke-WebRequest http://<주소>:11434/api/version).Content
-& $py ch04_dev-env\check_ollama.py
+& $py ch04_dev-env\ollama\check_ollama.py
 ```
 
 ---

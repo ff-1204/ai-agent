@@ -5,7 +5,7 @@
 #      namespace        : 아래 전부 (기본값 ollama)
 #      storageClassName : PVC 절의 주석 해제 후 클러스터 값으로
 #
-#      kubectl apply -f ollama-k8s.yaml
+#      kubectl apply -f k8s.yaml
 #      kubectl -n ollama rollout status deploy/ollama
 #      kubectl -n ollama port-forward svc/ollama 11434:11434
 #

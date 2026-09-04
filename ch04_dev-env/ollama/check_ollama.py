@@ -1,6 +1,6 @@
 """올라마 연결과 기본 기능을 확인한다.
 
-    python ch04_dev-env/check_ollama.py
+    python ch04_dev-env/ollama/check_ollama.py
 
 저장소 루트의 .env 에서 접속 정보를 읽는다(장별 .env 는 두지 않는다).
 없으면 기본값(http://localhost:11434 · qwen3.5:2b)으로 붙는다.
@@ -25,7 +25,7 @@ from langchain_core.tools import tool
 from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
 
-load_dotenv(Path(__file__).parent.parent / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")   # 저장소 루트
 
 BASE = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL = os.getenv("OLLAMA_MODEL") or "qwen3.5:2b"

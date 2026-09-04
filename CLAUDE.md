@@ -293,7 +293,7 @@ $conda = "C:\Users\dorim\miniforge3\Scripts\conda.exe"
 $py    = "C:\Users\dorim\miniforge3\envs\agent\python.exe"
 
 & $py ch06_single-agent/practice/my_agent.py
-& $py ch04_dev-env/check_ollama.py
+& $py ch04_dev-env/ollama/check_ollama.py
 ```
 
 > **`conda activate` 를 그냥 치면 실패합니다.** `CondaError: Run 'conda init' before 'conda activate'`
@@ -337,7 +337,7 @@ $py    = "C:\Users\dorim\miniforge3\envs\agent\python.exe"
 - **`.env`의 `OLLAMA_MODEL`이 채워져 있으면 올라마, 비어 있으면 API**
 - **모델은 `qwen3.5:2b`** (2.3B · Q8_0 · 컨텍스트 262k). 고른 근거는 [SETUP.md](ch04_dev-env/SETUP.md) §4.2
 - **적용 범위** — 4·5·8장은 도구 호출을 거의 안 써서 문제없음. **6장부터는 모델이 도구 호출을 지원해야** 함(예제 89개 중 36개가 도구 호출)
-- **검증** — `& $py ch04_dev-env/check_ollama.py` (검사 4종) · `& $py scripts/check-parallel-tools.py <모델...>` (모델 여러 개 비교)
+- **검증** — `& $py ch04_dev-env/ollama/check_ollama.py` (검사 4종) · `& $py scripts/check-parallel-tools.py <모델...>` (모델 여러 개 비교)
 
 **실측 (2026-09-03 · 로컬 · qwen3.5:2b · CPU)**
 
