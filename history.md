@@ -444,6 +444,9 @@ a2a-sdk 0.3.26  → httpx >=0.28.1
 | ~~**`SETUP.md` 분리**~~ | ~~4.1~4.3이 환경 구축이라 뺄 수도 있었지만, **교재 목차를 따르기로** 했습니다~~ → **⑪에서 뒤집었습니다.** 4장은 `SETUP.md` 하나로 합쳤습니다 |
 | **uv와 conda 병행** | 두 환경을 다 두면 **어느 쪽이 기준인지 알 수 없게 됩니다.** ⑫에서 conda 하나로 정리했습니다 |
 | **`conda run` 을 실행 방법으로 쓰기** | 셸 초기화가 필요 없어 편하지만, conda가 자식 출력을 cp949로 다시 찍어 **한글이 깨지고 죽습니다.** 이 저장소 스크립트는 한국어를 출력합니다. 환경 `python.exe` 를 직접 부릅니다 |
+| **윈도우 설치를 `SETUP.md` 본문에 두기** | 올라마는 HTTP로 붙으므로 **서버가 어디서 도는지는 학습에 차이가 없습니다.** 본문에 두면 "기본은 윈도우"로 읽혀 쿠버네티스가 곁가지가 됩니다. §4를 "연결"로 바꾸고 설치는 부록 둘(`ollama-windows.md` · `ollama-k8s.md`)로 뺐습니다 |
+| **부록을 `SETUP-` 접두사로 두기** | `SETUP.md` / `SETUP-k8s.md` / `SETUP-ollama-windows.md` 로 두니 **셋이 나란한 대안처럼** 보였습니다. 실제로는 하나가 본체고 둘은 §4의 부록입니다. `ollama-` 로 바꾸니 관계가 이름에서 드러나고 `ollama-k8s.yaml` 과도 짝이 맞습니다 |
+| **매니페스트에 사내 네임스페이스·StorageClass 를 그대로 커밋** | 공개 저장소입니다. 비밀값은 아니지만 사내 인프라 이름이 git 이력에 영구히 남습니다. **되돌리기 어려운 쪽을 피하고** 기본값/자리표시자로 두었습니다 — 채우는 쪽은 명령 한 줄입니다 |
 | **`OLLAMA_IGPU_ENABLE=1` 로 내장 GPU 켜기** | 올라마가 Intel Arc를 일부러 버리고 CPU로 갑니다. 켤 수는 있지만 **더 빠른지 안 재봤고**, CPU만으로 쓸 만합니다. 필요해지면 그때 |
 | **저장소 전체 의존성을 conda 환경에 한 번에 넣기** | 장에 갈 때 그 장 것만 추가하는 쪽을 택했습니다. 지금까지 4~6장 + 9장을 넣었고 **전부 conda-forge에 있어 pip를 섞지 않았습니다**(당초 걱정과 달리 `mcp`도 conda-forge에 있었습니다) |
 | **supabase 를 conda로 깔기** | 깔 수 없었습니다. conda-forge의 `postgrest 2.31.0` 레시피가 `httpx<0.28` 을 요구하는데 `a2a-sdk` 는 `httpx>=0.28.1` 이라 **7장과 10장이 같은 환경에서 충돌**합니다. **업스트림(PyPI)에는 그 제약이 없어**(`httpx<0.29`) supabase 계열만 pip로 넣었습니다. conda-forge 레시피가 좁게 잡힌 쪽이 원인입니다 |
@@ -516,7 +519,7 @@ git config core.hooksPath scripts/hooks
 <!-- AUTO:COMMITS:START -->
 <!-- 이 절은 scripts/update-history.ps1 이 만듭니다. 직접 고치지 마세요. -->
 
-전체 커밋 90개. 판단의 배경은 위쪽 본문에 있습니다.
+전체 커밋 92개. 판단의 배경은 위쪽 본문에 있습니다.
 
 ### 2026-04-06  ·  1개  ·  Nayeon Park
 
@@ -638,7 +641,7 @@ git config core.hooksPath scripts/hooks
 | `12616d0` | docs(ch06): 6.5 RAG 를 올라마로 실습하고 notes.md 에 기록 |
 | `699e0fd` | docs: 커밋 이력 부록 갱신 |
 
-### 2026-09-04  ·  5개  ·  ff-1204
+### 2026-09-04  ·  7개  ·  ff-1204
 
 | 커밋 | 제목 |
 | :--- | :--- |
@@ -647,6 +650,8 @@ git config core.hooksPath scripts/hooks
 | `2eaa096` | build: supabase 설치로 import 검사 38/38 통과 |
 | `46a1aca` | docs: 커밋 이력 부록 갱신 |
 | `06b994e` | docs: history.md 에 ⑬ 단계 추가 (+ ⑪·⑫ 본문 보강) |
+| `eb22d62` | docs: 커밋 이력 부록 갱신 |
+| `625a865` | docs(ch04): 올라마 서버 준비 문서 분리 + 쿠버네티스 배포 검증 |
 
 <!-- AUTO:COMMITS:END -->
 
