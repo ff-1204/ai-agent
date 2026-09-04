@@ -219,48 +219,42 @@ C:\Users\<사용자>\miniforge3\envs\agent\python.exe -c "from langgraph.graph i
 
 ---
 
-## 4. 올라마 설치와 연결 테스트
+## 4. 올라마에 연결하기
 
-API 키 없이 로컬에서 모델을 돌리는 쪽입니다. 4·5·8장은 이것만으로 진행할 수 있습니다.
+API 키 없이 모델을 돌리는 쪽입니다. 4·5·8장은 이것만으로 진행할 수 있습니다.
 
-### 4.1 설치
+**올라마는 HTTP 로 붙습니다. 서버가 어디서 도는지는 학습에 아무 차이가 없습니다.**
+필요한 것은 **주소 하나**뿐이고, 그 뒤(§4.1~§4.5)는 전부 같습니다.
 
-- 다운로드: <https://ollama.com/download/OllamaSetup.exe> (약 1.5GB)
+```ini
+OLLAMA_BASE_URL=http://<주소>:11434
+```
+
+| 이미 쓸 수 있는 서버가 | |
+| :--- | :--- |
+| **있다** | 주소만 §4.3 의 `.env` 에 적으면 끝입니다 |
+| **없다** | 아래 중 하나로 준비하고 돌아오세요 |
+
+| 서버를 준비하는 법 | 문서 |
+| :--- | :--- |
+| 이 PC (윈도우)에 설치 | [ollama-windows.md](ollama-windows.md) |
+| 쿠버네티스에 배포 | [ollama-k8s.md](ollama-k8s.md) · [`ollama-k8s.yaml`](ollama-k8s.yaml) |
+
+> **`http://` 입니다.** 올라마는 평문 HTTP 로만 서비스합니다. `https://` 로 적으면 `SSL connection could not be established` 가 납니다. TLS 가 필요하면 앞단에 인그레스를 두는 쪽입니다.
+
+### 4.1 주소가 살아 있는지
+
+가장 먼저 볼 것. 모델이 없어도 됩니다.
 
 ```powershell
-Get-AuthenticodeSignature .\OllamaSetup.exe |
-  Format-List Status, @{n='Signer';e={$_.SignerCertificate.Subject}}
+(Invoke-WebRequest http://<주소>:11434/api/version).Content
 ```
 
 ```
-Status : Valid
-Signer : CN="Ollama Inc.", O="Ollama Inc.", L=Toronto, S=Ontario, C=CA
+{"version":"0.33.2"}
 ```
 
-**관리자 권한이 필요 없습니다.** `%LOCALAPPDATA%\Programs\Ollama` 에 설치되고 사용자 PATH에 자동 등록됩니다.
-
-```powershell
-Start-Process -FilePath .\OllamaSetup.exe -ArgumentList '/VERYSILENT','/NORESTART','/SUPPRESSMSGBOXES'
-```
-
-> **`-Wait` 를 붙이지 마세요.** 설치가 끝나면 설치 프로그램이 **트레이 앱을 띄우고**, `-Wait` 가 그 프로세스까지 기다리느라 반환되지 않습니다. 10분을 기다리다 죽였는데 **설치는 이미 성공한 상태**였습니다.
-
-설치가 끝나면 **서버가 알아서 뜹니다.** `ollama serve` 를 따로 칠 필요가 없습니다.
-
-> **완료 판정은 파일이 아니라 API로 하세요.** `ollama.exe` 는 설치 시작 **10초 만에** 생기지만, 서버가 응답하기까지 거기서 **2분 반이 더** 걸립니다. 그 사이에 `ollama pull` 을 치면 이렇게 됩니다.
->
-> ```
-> Warning: could not connect to a running Ollama instance
-> ```
->
-> API가 응답할 때까지 기다렸다가 다음으로 넘어가세요.
->
-> ```powershell
-> $limit = (Get-Date).AddMinutes(8)
-> do { try { $r = Invoke-WebRequest 'http://localhost:11434/api/version' -TimeoutSec 5 -EA Stop } catch { Start-Sleep 10 } }
-> until ($r -or (Get-Date) -gt $limit)
-> $r.Content
-> ```
+여기서 응답이 없으면 **서버 문제**입니다. 위 준비 문서로 돌아가세요.
 
 ### 4.2 모델 고르기
 
@@ -310,21 +304,9 @@ C:\Users\<사용자>\miniforge3\envs\agent\python.exe scripts\check-parallel-too
 > phi4-mini      ->  본문에: [{"type"...
 > ```
 >
-> 파싱이 안 되니 `tool_calls` 가 빕니다. **모델을 바꾸면 §4.5를 반드시 다시 돌리세요.**
+> 파싱이 안 되니 `tool_calls` 가 빕니다. **모델을 바꾸면 §4.4를 반드시 다시 돌리세요.**
 
-### 4.3 서버 연결 확인
-
-가장 먼저 볼 것. 모델 없이도 됩니다.
-
-```powershell
-(Invoke-WebRequest http://localhost:11434/api/version).Content
-```
-
-```
-{"version":"0.33.2"}
-```
-
-### 4.4 `.env` 설정
+### 4.3 `.env` 설정
 
 **접속 정보는 저장소 루트의 `.env` 하나로 관리합니다.** 장별로 두지 않습니다.
 
@@ -346,11 +328,14 @@ OPENAI_API_KEY=
 
 - **모델을 바꾸는 곳은 여기 한 줄입니다.** 코드에 모델 이름을 박지 마세요 — 올라마 모델 태그는 자주 바뀝니다
 - 사내·원격 올라마 서버를 쓴다면 `OLLAMA_BASE_URL` 만 그 주소로 바꿉니다. 설치도 필요 없습니다
+- 쿠버네티스에 올린 경우도 같습니다 — 주소만 그쪽으로([ollama-k8s.md](ollama-k8s.md))
+
+> **`http://` 입니다.** 올라마는 평문 HTTP 로만 서비스합니다. 원격 서버를 `https://` 로 적으면 `SSL connection could not be established` 가 납니다.
 
 > **`.env` 는 `.gitignore` 에 있습니다.** 확인: `git check-ignore -v .env`
 > **키를 출력하지 마세요.** 노트북 셀 출력은 커밋됩니다.
 
-### 4.5 연결 테스트 코드
+### 4.4 연결 테스트 코드
 
 [`check_ollama.py`](check_ollama.py) 를 실행합니다. `.env` 를 읽어 붙고, 4장에서 쓸 기능 셋이 실제로 도는지 확인합니다.
 
@@ -379,13 +364,13 @@ C:\Users\<사용자>\miniforge3\envs\agent\python.exe ch04_dev-env\check_ollama.
 [4] 병렬 호출  : ['get_weather', 'get_time']  (한 응답에 2건)
 ```
 
-**[2]와 [4]가 통과하면 6장 이후로 넘어갈 수 있습니다.** [3]에 적힌 `method` 는 코드에 그대로 써야 하는 값입니다(§4.6 ①).
+**[2]와 [4]가 통과하면 6장 이후로 넘어갈 수 있습니다.** [3]에 적힌 `method` 는 코드에 그대로 써야 하는 값입니다(§4.5 ①).
 
 > **`tok/s` 는 재볼 때마다 다릅니다.** 같은 PC·같은 모델로 네 번 재서 7.2 · 7.5 · 9.2 · 9.9 가 나왔습니다. 다른 컴퓨터의 부하·전원 설정에 따라 더 벌어집니다. **숫자를 맞추려 하지 말고 [2]~[4]가 통과하는지만 보세요.**
 
 > 도구 두 개 중에서 고르게 하는 검사는 저장소의 `scripts/check-ollama.py` 에 있습니다.
 
-### 4.6 결과를 읽는 법 — 함정 셋
+### 4.5 결과를 읽는 법 — 함정 셋
 
 **① 구조화 출력의 `method` 는 모델마다 다릅니다.**
 
@@ -400,7 +385,7 @@ C:\Users\<사용자>\miniforge3\envs\agent\python.exe ch04_dev-env\check_ollama.
 chain = llm.with_structured_output(Schema, method="json_schema")
 ```
 
-모델을 바꾸면 §4.5를 다시 돌려 **어느 method가 되는지부터** 확인하세요. 코드에 하드코딩하기 전에 확인해야 합니다.
+모델을 바꾸면 §4.4를 다시 돌려 **어느 method가 되는지부터** 확인하세요. 코드에 하드코딩하기 전에 확인해야 합니다.
 
 **② 통과했다고 정확한 것은 아닙니다.**
 
@@ -435,19 +420,25 @@ inference compute: id=cpu library=cpu total=31.5GiB available=20.2GiB
 
 ## 5. 한눈에 보기
 
+**이 PC 에 깔리는 것** — 전부 **관리자 권한 없이** 사용자 프로필에만 들어갑니다.
+
 | 구성 요소 | 버전 | 설치 위치 |
 | :--- | :--- | :--- |
 | VS Code | — | — |
 | 미니포지 (conda) | 26.5.3 | `%USERPROFILE%\miniforge3` |
 | 파이썬 (`agent` 환경) | **3.12.14** | `…\miniforge3\envs\agent` |
-| 올라마 | 0.33.2 | `%LOCALAPPDATA%\Programs\Ollama` |
-| 올라마 모델 | **qwen3.5:2b** (2.3B · Q8_0) | `%USERPROFILE%\.ollama\models` |
 
-전부 **관리자 권한 없이** 사용자 프로필에만 설치됩니다.
+**서버 쪽에 있는 것** — 어디서 돌든 `.env` 의 주소 한 줄로 가리킵니다.
+
+| | |
+| :--- | :--- |
+| 올라마 | 0.33.2 |
+| 모델 | **qwen3.5:2b** (2.3B · Q8_0) + `bge-m3` (임베딩) |
+| 준비하는 법 | [윈도우](ollama-windows.md) · [쿠버네티스](ollama-k8s.md) |
 
 ### 매번 확인할 것
 
-활성화 없이 도는 형태로 적었습니다. `<사용자>` 만 바꿔 쓰세요.
+활성화 없이 도는 형태로 적었습니다. `<사용자>` 와 `<주소>` 만 바꿔 쓰세요.
 
 ```powershell
 $conda = "C:\Users\<사용자>\miniforge3\Scripts\conda.exe"
@@ -455,7 +446,7 @@ $py    = "C:\Users\<사용자>\miniforge3\envs\agent\python.exe"
 
 & $conda config --show channels                   # conda-forge 만
 & $py --version                                   # 3.12.14
-(Invoke-WebRequest http://localhost:11434/api/version).Content
+(Invoke-WebRequest http://<주소>:11434/api/version).Content
 & $py ch04_dev-env\check_ollama.py                # 검사 4종
 ```
 
@@ -468,6 +459,7 @@ $py    = "C:\Users\<사용자>\miniforge3\envs\agent\python.exe"
 | 모델 | `qwen3.5:2b` — `.env` 의 `OLLAMA_MODEL` |
 | 구조화 출력 method | `json_schema` |
 | `ChatOllama` 필수 인자 | `temperature=0, reasoning=False` |
+| 서버 위치 | **학습에 영향 없음** — `.env` 의 `OLLAMA_BASE_URL` 한 줄 |
 | 6장 이후 가능 여부 | 도구 호출 ✅ · 도구 선택 ✅ · 병렬 호출 ✅ |
 
 ---

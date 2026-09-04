@@ -1,0 +1,197 @@
+# ─────────────────────────────────────────────────────────────────────────
+#  Ollama on Kubernetes
+#
+#  ★ 쓰기 전에 고칠 것 둘
+#      namespace        : 아래 전부 (기본값 ollama)
+#      storageClassName : PVC 절의 주석 해제 후 클러스터 값으로
+#
+#      kubectl apply -f ollama-k8s.yaml
+#      kubectl -n ollama rollout status deploy/ollama
+#      kubectl -n ollama port-forward svc/ollama 11434:11434
+#
+#  리소스 값은 CPU 추론 기준 실측에서 잡았습니다.
+#      qwen3.5:2b   2.4GB (4k 컨텍스트) ~ 2.8GB (32k)
+#      bge-m3       1.2GB
+#      둘 다 올리면  약 4.0GB
+# ─────────────────────────────────────────────────────────────────────────
+# 모델 저장소. 모델은 크고 다시 받는 데 오래 걸리므로 파드와 수명을 분리합니다.
+#   qwen3.5:2b 2.7GB + bge-m3 1.2GB = 약 4GB. 여유를 둬 20Gi.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ollama-models
+  namespace: ollama
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  # 클러스터의 StorageClass 이름으로 바꾸세요. 지우면 기본값이 쓰입니다.
+  # storageClassName: <StorageClass>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+  namespace: ollama
+  labels:
+    app: ollama
+spec:
+  replicas: 1
+  # RWO 볼륨을 하나의 파드가 잡고 있으므로 새 파드를 먼저 띄우면 안 됩니다.
+  # RollingUpdate 로 두면 새 파드가 볼륨을 못 붙고 Pending 에 걸립니다.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      # 모델 파일 권한 문제를 피하려면 root 로 두는 편이 간단합니다.
+      # 보안 정책이 막는다면 fsGroup 을 주고 image 의 UID(0)를 바꿔야 합니다.
+      securityContext:
+        fsGroup: 0
+      containers:
+        - name: ollama
+          # 태그를 고정하되 "모델이 요구하는 버전 이상"이어야 합니다.
+          #   qwen3.5:2b 는 0.17.1 이상을 요구합니다. 0.13.0 으로는 pull 이 412 로 막힙니다.
+          #   확인: ollama show <모델> 의 requires 칸
+          image: ollama/ollama:0.33.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 11434
+          env:
+            # 컨테이너 밖에서 붙으려면 반드시 0.0.0.0 입니다. 기본값은 127.0.0.1.
+            - name: OLLAMA_HOST
+              value: "0.0.0.0:11434"
+            # 모델을 메모리에 얼마나 붙들지. -1 이면 안 내립니다.
+            # NFS 에서는 재적재가 10~13초 걸립니다(로컬 SSD 는 3.4초). 게다가
+            # 두 모델을 다 올려도 3.33GB 라 requests(5Gi) 안에 들어갑니다.
+            # 전용 파드라면 -1 이 낫습니다. 노드를 나눠 쓴다면 5m 로.
+            - name: OLLAMA_KEEP_ALIVE
+              value: "-1"
+            # 동시에 올릴 모델 수. RAG 는 대화 모델 + 임베딩 모델이라 2 가 필요합니다.
+            - name: OLLAMA_MAX_LOADED_MODELS
+              value: "2"
+            # 한 모델에 대한 동시 요청 수. 늘리면 KV 캐시가 그만큼 더 듭니다.
+            # 2 로 두면 32k 컨텍스트 기준 모델당 0.4GB 쯤 더 잡힙니다.
+            - name: OLLAMA_NUM_PARALLEL
+              value: "2"
+            - name: OLLAMA_MODELS
+              value: /root/.ollama/models
+          resources:
+            requests:
+              # 실측(클러스터): qwen3.5:2b 2.20GB + bge-m3 1.14GB = 3.33GB (ctx 4096).
+              # 컨텍스트를 키우거나 NUM_PARALLEL 을 올리면 늘어나므로 여유를 뒀습니다.
+              memory: 5Gi
+              cpu: "2"
+            limits:
+              # CPU 추론은 램을 넘기면 OOMKilled 로 죽습니다. 넉넉히 잡으세요.
+              memory: 8Gi
+              cpu: "4"
+          volumeMounts:
+            - name: models
+              mountPath: /root/.ollama
+          # 서버가 뜨는 데 시간이 걸립니다. startupProbe 로 그 구간을 덮어
+          # liveness 가 성급하게 재시작시키는 것을 막습니다.
+          startupProbe:
+            httpGet:
+              path: /api/version
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60        # 최대 5분
+          readinessProbe:
+            httpGet:
+              path: /api/tags
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/version
+              port: http
+            periodSeconds: 20
+            failureThreshold: 3
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: ollama-models
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama
+  namespace: ollama
+spec:
+  type: ClusterIP
+  selector:
+    app: ollama
+  ports:
+    - name: http
+      port: 11434
+      targetPort: http
+
+---
+# 모델 받기. Deployment 에 넣지 않고 Job 으로 뺐습니다.
+#   - postStart 훅에 넣으면 파드가 재시작될 때마다 확인이 돌고,
+#     실패해도 원인이 파드 이벤트에 묻힙니다.
+#   - Job 은 로그가 남고 다시 돌리기도 쉽습니다.
+#
+#   모델을 바꾸려면 args 를 고치고 Job 이름을 바꿔 다시 apply 하세요
+#   (완료된 Job 은 args 만 바꿔 재적용할 수 없습니다).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ollama-pull-models
+  namespace: ollama
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: pull
+          image: ollama/ollama:0.33.2
+          env:
+            - name: OLLAMA_HOST
+              value: "http://ollama.ollama.svc.cluster.local:11434"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              echo "서버 대기 중…"
+              until ollama list >/dev/null 2>&1; do sleep 3; done
+              echo "서버 준비됨"
+              ollama pull qwen3.5:2b
+              ollama pull bge-m3
+              ollama list
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits:
+              memory: 512Mi
+
+# ─────────────────────────────────────────────────────────────────────────
+#  GPU 를 쓸 때 (NVIDIA device plugin 설치 필요)
+#
+#  Deployment 의 containers[0] 에 아래를 더합니다.
+#
+#      resources:
+#        limits:
+#          nvidia.com/gpu: 1
+#      env:
+#        - name: NVIDIA_VISIBLE_DEVICES
+#          value: all
+#
+#  GPU 를 쓰면 가중치가 VRAM 으로 올라가 시스템 램 requests 를 낮출 수 있습니다.
+#  다만 VRAM 이 모자라면 올라마가 조용히 CPU 로 떨어집니다.
+#  확인: kubectl -n ollama exec deploy/ollama -- ollama ps   (PROCESSOR 칸)
+# ─────────────────────────────────────────────────────────────────────────
